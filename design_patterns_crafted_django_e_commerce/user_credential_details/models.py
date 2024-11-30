@@ -12,17 +12,17 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
-from django_ecommerce_strategy_pattern.user_credential_details.managers import (
+from .managers import (
     UserCredentialDetailsManager,
 )
 
-from django_ecommerce_strategy_pattern.user_shipping_details.models import (
-    UserShippingDetails,
-)
+# from django_ecommerce_strategy_pattern.user_shipping_details.models import (
+#     UserShippingDetails,
+# )
 
-from django_ecommerce_strategy_pattern.user_payment_details.models import (
-    UserPaymentDetails,
-)
+# from django_ecommerce_strategy_pattern.user_payment_details.models import (
+#     UserPaymentDetails,
+# )
 
 
 class UserCredentialDetails(AbstractBaseUser, PermissionsMixin):
