@@ -10,7 +10,9 @@ from design_patterns_crafted_django_e_commerce.product.strategies.filtration imp
 
 class WishlistManager(models.Manager):
     def get_all_liked_products(self, user) -> str:
-        wishlist_items = self.filter(user=user).select_related("product", "product__category", "product__color")
+        wishlist_items = self.filter(user=user).select_related(
+            "product", "product__category", "product__color"
+        )
         result = []
 
         for wishlist_item in wishlist_items:
@@ -26,6 +28,21 @@ class WishlistManager(models.Manager):
 
         return "\n".join(result)
 
+    def __check_if_a_product_is_liked_by_user(self, product, user):
+        return self.filter(user=user, product=product).exists()
 
-    def check_if_a_product_is_liked_by_user(self, product, user):
-        pass
+    def __add_product_to_wishlist(self, product, user):
+        self.create(product=product, user=user)
+
+        return "Product has been added to wishlist"
+
+    def __remove_product_from_wishlist(self, product, user):
+        self.filter(product=product, user=user).delete()
+
+        return "Product has removed from the wishlist"
+
+    def execute_like_button_click(self, product, user):
+        if self.__check_if_a_product_is_liked_by_user(product, user):
+            return self.__remove_product_from_wishlist(product, user)
+
+        return self.__add_product_to_wishlist(product, user)

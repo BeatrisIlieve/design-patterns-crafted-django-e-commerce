@@ -64,7 +64,7 @@ def test_get_product_details_into_product_list_page(category_pk, color_pk):
     return execute_filtration(
         category_pk, color_pk, FiltrationMethod.INTO_PRODUCTS_LIST
     )
-
+    
 
 def test_get_product_details_into_product_page(category_pk, color_pk):
 
@@ -74,8 +74,14 @@ def test_get_product_details_into_product_page(category_pk, color_pk):
 def test_get_pink_product_set(method: ProductSetMethod) -> str:
     return execute_product_set(method)
 
+def test_execute_clicking_on_the_like_button_expect_to_add(product, user):
+    return Wishlist.objects.execute_like_button_click(product, user)
+
 def test_get_products_in_user_wishlist(user):
     return Wishlist.objects.get_all_liked_products(user)
+
+def test_execute_clicking_on_the_like_button_expect_to_remove(product, user):
+    return Wishlist.objects.execute_like_button_click(product, user)
         
 
 
@@ -98,9 +104,11 @@ print()
 print()
 product = Product.objects.filter(category_id=category_pk_1, color_id=color_pk_1).first()
 user = UserCredentialDetails.objects.get(email="beatrisilieve@icloud.com")
-# Wishlist.objects.create(product=product, user=user)
+print(test_execute_clicking_on_the_like_button_expect_to_add(product, user))
+print()
 print(test_get_products_in_user_wishlist(user))
 print()
+print(test_execute_clicking_on_the_like_button_expect_to_remove(product, user))
 """
 OUTPUT:
 
@@ -164,4 +172,24 @@ First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forge
 Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
 Price Range: 43000.00 - 45000.00
 Is sold out: False
+
+Product has been added to wishlist
+
+Category: Earrings
+Color: Pink
+First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
+Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
+Price Range: 43000.00 - 45000.00
+Is sold out: False
+
+Product has been added to wishlist
+
+Category: Earrings
+Color: Pink
+First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
+Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
+Price Range: 43000.00 - 45000.00
+Is sold out: False
+
+Product has removed from the wishlist
 """
