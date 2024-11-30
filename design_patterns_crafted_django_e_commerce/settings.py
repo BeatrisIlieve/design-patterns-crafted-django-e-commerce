@@ -9,7 +9,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 CUSTOM_APPS = [
-    "design_patterns_crafted_django_e_commerce.common"
+    "design_patterns_crafted_django_e_commerce.common",
+    "design_patterns_crafted_django_e_commerce.user_credential_details",
 ]
 
 
