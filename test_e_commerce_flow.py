@@ -42,13 +42,20 @@ from design_patterns_crafted_django_e_commerce.product.strategies.product_set im
 )
 from design_patterns_crafted_django_e_commerce.wishlist.models import (Wishlist,)
 
+class TestEntireFunctionality:
+    def __init__(self) -> None:
+        self.user_email: str = "beatrisilieve@icloud.com"
+        self.user_password: str = "123456Aa@"
+        self.category_pk_1: int = Category.objects.get(title="E").pk
+        self.color_pk_1: int = Color.objects.get(title="P").pk
+        self.product_set_method: ProductSetMethod = ProductSetMethod.PINK_SET
 
-def test_register_user(email: str, password: str) -> str:
-    try:
-        UserCredentialDetails.objects.create(email=email, password=password)
-        return f"User with email {email} has successfully registered."
-    except ValidationError as e:
-        return e.messages[0]
+    def test_register_user(self) -> str:
+        try:
+            UserCredentialDetails.objects.create(self.user_email, self.user_password)
+            return f"User with email {self.user_email} has successfully registered."
+        except ValidationError as e:
+            return e.messages[0]
 
 
 def test_register_user_with_duplicate_email(email: str, password: str) -> str:
@@ -96,11 +103,11 @@ print()
 category_pk_1 = Category.objects.get(title="E").pk
 color_pk_1 = Color.objects.get(title="P").pk
 
-# print(test_get_product_details_into_product_list_page(category_pk_1, color_pk_1))
+print(test_get_product_details_into_product_list_page(category_pk_1, color_pk_1))
 print()
-# print(test_get_product_details_into_product_page(category_pk_1, color_pk_1))
+print(test_get_product_details_into_product_page(category_pk_1, color_pk_1))
 print()
-# print(test_get_pink_product_set(ProductSetMethod.PINK_SET))
+print(test_get_pink_product_set(ProductSetMethod.PINK_SET))
 print()
 product = Product.objects.filter(category_id=category_pk_1, color_id=color_pk_1).first()
 user = UserCredentialDetails.objects.get(email="beatrisilieve@icloud.com")
