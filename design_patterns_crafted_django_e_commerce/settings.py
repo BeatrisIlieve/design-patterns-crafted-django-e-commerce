@@ -14,6 +14,7 @@ CUSTOM_APPS = [
     "design_patterns_crafted_django_e_commerce.user_shipping_details",
     "design_patterns_crafted_django_e_commerce.user_payment_details",
     "design_patterns_crafted_django_e_commerce.product",
+    "design_patterns_crafted_django_e_commerce.inventory",
 ]
 
 

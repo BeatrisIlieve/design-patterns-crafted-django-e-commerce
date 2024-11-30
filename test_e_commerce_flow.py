@@ -17,6 +17,10 @@ from django.db.utils import (
 from design_patterns_crafted_django_e_commerce.user_credential_details.models import (
     UserCredentialDetails,
 )
+from design_patterns_crafted_django_e_commerce.product.strategies.filtration import (
+    FiltrationMethod,
+    execute_filtration,
+)
 
 
 def test_register_user(email: str, password: str) -> str:
@@ -42,6 +46,15 @@ print(
         email="beatrisilieve@icloud.com", password="123456Aa@"
     )
 )
+
+# run python manage.py initialize_products_data
+
+
+def test_get_product_details_into_product_list_page(category_pk, color_pk):
+
+    return execute_filtration(
+        category_pk, color_pk, FiltrationMethod.INTO_PRODUCTS_LIST
+    )
 
 
 """
