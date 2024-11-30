@@ -37,6 +37,10 @@ from design_patterns_crafted_django_e_commerce.product.models import (
     Product,
 )
 
+from design_patterns_crafted_django_e_commerce.inventory.models import (
+    Inventory,
+)
+
 
 def test_register_user(email: str, password: str) -> str:
     try:
@@ -73,7 +77,6 @@ category_pk_1 = Category.objects.get(title="E").pk
 color_pk_1 = Color.objects.get(title="P").pk
 
 print(test_get_product_details_into_product_list_page(category_pk_1, color_pk_1))
-
 """
 OUTPUT:
 

@@ -44,6 +44,7 @@ class IntoProductsListDetails(FiltrationStrategy):
         entity = Product.objects.represent_entity_into_products_list(
             category_pk, color_pk
         )
+    
 
         result = []
 
@@ -55,13 +56,15 @@ class IntoProductsListDetails(FiltrationStrategy):
             result.append(f"Second Image: {data.second_image_url}")
 
             result.append(f"Price Range: {data.min_price} - {data.max_price}")
+            result.append(f"Is sold out: {data.is_sold_out}")
+            
 
-            for inventory in data.product_inventory.all():
-                result.append(f"Inventory Quantity: {inventory.quantity}")
-                result.append(f"Price Amount: {inventory.price}")
-                result.append(
-                    f"  Is Sold Out: {'Yes' if inventory.is_sold_out else 'No'}"
-                )
+            # for inventory in data.product_inventory.all():
+            #     result.append(f"Inventory Quantity: {inventory.quantity}")
+            #     result.append(f"Price Amount: {inventory.price}")
+            #     result.append(
+            #         f"  Is Sold Out: {'Yes' if inventory.is_sold_out else 'No'}"
+            #     )
 
         return "\n".join(result)
 
@@ -138,4 +141,4 @@ def execute_filtration(category_pk, color_pk, method: FiltrationMethod):
     }
 
     context = FiltrationContext(strategy=strategies[method])
-    return context.execute_filtration(category_pk, color_pk)
+    return context.get_entity_details(category_pk, color_pk)
