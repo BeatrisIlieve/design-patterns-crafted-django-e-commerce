@@ -67,4 +67,4 @@ def execute_product_set(method: ProductSetMethod):
     }
 
     context = ProductSetContext(strategy=strategies[method])
-    return context.execute_product_set()
+    return context.get_product_set()
