@@ -1,5 +1,9 @@
 from django.db import models
 
+from .managers import (
+    WishlistManager,
+)
+
 from design_patterns_crafted_django_e_commerce.product.models import (
     Product,
 )
@@ -14,6 +18,8 @@ class Wishlist(models.Model):
             "user",
             "product",
         )
+        
+    objects = WishlistManager()
 
     product = models.ForeignKey(
         to=Product,

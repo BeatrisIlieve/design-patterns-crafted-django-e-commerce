@@ -40,6 +40,7 @@ from design_patterns_crafted_django_e_commerce.product.strategies.product_set im
     ProductSetMethod,
     execute_product_set,
 )
+from design_patterns_crafted_django_e_commerce.wishlist.models import (Wishlist,)
 
 
 def test_register_user(email: str, password: str) -> str:
@@ -73,6 +74,10 @@ def test_get_product_details_into_product_page(category_pk, color_pk):
 def test_get_pink_product_set(method: ProductSetMethod) -> str:
     return execute_product_set(method)
 
+def test_get_products_in_user_wishlist(user):
+    return Wishlist.objects.get_all_liked_products(user)
+        
+
 
 print(test_register_user(email="beatrisilieve@icloud.com", password="123456Aa@"))
 print()
@@ -85,11 +90,17 @@ print()
 category_pk_1 = Category.objects.get(title="E").pk
 color_pk_1 = Color.objects.get(title="P").pk
 
-print(test_get_product_details_into_product_list_page(category_pk_1, color_pk_1))
+# print(test_get_product_details_into_product_list_page(category_pk_1, color_pk_1))
 print()
-print(test_get_product_details_into_product_page(category_pk_1, color_pk_1))
+# print(test_get_product_details_into_product_page(category_pk_1, color_pk_1))
 print()
-print(test_get_pink_product_set(ProductSetMethod.PINK_SET))
+# print(test_get_pink_product_set(ProductSetMethod.PINK_SET))
+print()
+product = Product.objects.filter(category_id=category_pk_1, color_id=color_pk_1).first()
+user = UserCredentialDetails.objects.get(email="beatrisilieve@icloud.com")
+# Wishlist.objects.create(product=product, user=user)
+print(test_get_products_in_user_wishlist(user))
+print()
 """
 OUTPUT:
 
@@ -97,7 +108,6 @@ User with email beatrisilieve@icloud.com has successfully registered.
 
 User with that email address already exists.
 
-Product: Pink Earrings
 Category: Earrings
 Color: Pink
 First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
@@ -146,5 +156,12 @@ Color: Pink
 First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714892/forget-me-not-collection/rings/forget_me_not_ring_diamond_and_pink_sapphire_frpsprfflrfmn_e_1_qfumu3.webp
 Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714892/forget-me-not-collection/rings/forget_me_not_ring_diamond_and_pink_sapphire_frpsprfflrfmn_e_2_k7nhpe.avif
 Price Range: 23000.00 - 25000.00
+Is sold out: False
+
+Category: Earrings
+Color: Pink
+First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
+Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
+Price Range: 43000.00 - 45000.00
 Is sold out: False
 """
