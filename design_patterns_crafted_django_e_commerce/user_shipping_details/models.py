@@ -1,4 +1,6 @@
-from django.db import models
+from django.db import (
+    models,
+)
 
 
 from design_patterns_crafted_django_e_commerce.common.models import (
