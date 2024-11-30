@@ -1,3 +1,13 @@
+"""
+1. Set up a PostgreSQL database
+2. Run python manage.py makemigrations
+3. Run python manage.py migrate
+4. Run python manage.py initialize_products_data
+5. Run python manage.py initialize_inventory_data
+6. Run the current file
+7. Compare the result with the output at the bottom of the current file
+"""
+
 import os
 import django
 
@@ -21,6 +31,11 @@ from design_patterns_crafted_django_e_commerce.product.strategies.filtration imp
     FiltrationMethod,
     execute_filtration,
 )
+from design_patterns_crafted_django_e_commerce.product.models import (
+    Category,
+    Color,
+    Product,
+)
 
 
 def test_register_user(email: str, password: str) -> str:
@@ -39,6 +54,13 @@ def test_register_user_with_duplicate_email(email: str, password: str) -> str:
         return e.messages[0]
 
 
+def test_get_product_details_into_product_list_page(category_pk, color_pk):
+
+    return execute_filtration(
+        category_pk, color_pk, FiltrationMethod.INTO_PRODUCTS_LIST
+    )
+
+
 print(test_register_user(email="beatrisilieve@icloud.com", password="123456Aa@"))
 
 print(
@@ -47,15 +69,10 @@ print(
     )
 )
 
-# run python manage.py initialize_products_data
+category_pk_1 = Category.objects.get(title="E").pk
+color_pk_1 = Color.objects.get(title="P").pk
 
-
-def test_get_product_details_into_product_list_page(category_pk, color_pk):
-
-    return execute_filtration(
-        category_pk, color_pk, FiltrationMethod.INTO_PRODUCTS_LIST
-    )
-
+print(test_get_product_details_into_product_list_page(category_pk_1, color_pk_1))
 
 """
 OUTPUT:
