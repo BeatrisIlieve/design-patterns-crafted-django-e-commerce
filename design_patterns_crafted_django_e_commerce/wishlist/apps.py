@@ -2,7 +2,5 @@ from django.apps import AppConfig
 
 
 class WishlistConfig(AppConfig):
-    default_auto_field = (
-        "design_patterns_crafted_django_e_commerce.django.db.models.BigAutoField"
-    )
-    name = "wishlist"
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'design_patterns_crafted_django_e_commerce.wishlist'
