@@ -1,13 +1,25 @@
-from django.db import (models,)
+from django.db import (
+    models,
+)
+
+from design_patterns_crafted_django_e_commerce.common.managers import (
+    BaseShoppingItemManager,
+)
+from design_patterns_crafted_django_e_commerce.user_credential_details.models import (
+    UserCredentialDetails,
+)
+from design_patterns_crafted_django_e_commerce.inventory.models import (
+    Inventory,
+)
 
 
 class BaseShoppingItem(models.Model):
     class Meta:
         abstract = True
         unique_together = ("user", "inventory")
-        
+
     objects = BaseShoppingItemManager()
-        
+
     quantity = models.PositiveIntegerField(
         default=1,
     )
