@@ -58,12 +58,12 @@ class TestEntireFunctionality:
             return e.messages[0]
 
 
-def test_register_user_with_duplicate_email(email: str, password: str) -> str:
-    try:
-        UserCredentialDetails.objects.create(email=email, password=password)
-        return f"User with email {email} has successfully registered."
-    except ValidationError as e:
-        return e.messages[0]
+    def test_register_user_with_duplicate_email(self) -> str:
+        try:
+            UserCredentialDetails.objects.create(self.user_email, self.user_password)
+            return f"User with email {self.user_email} has successfully registered."
+        except ValidationError as e:
+            return e.messages[0]
 
 
 def test_get_product_details_into_product_list_page(category_pk, color_pk):
