@@ -40,7 +40,10 @@ from design_patterns_crafted_django_e_commerce.product.strategies.product_set im
     ProductSetMethod,
     execute_product_set,
 )
-from design_patterns_crafted_django_e_commerce.wishlist.models import (Wishlist,)
+from design_patterns_crafted_django_e_commerce.wishlist.models import (
+    Wishlist,
+)
+
 
 class TestEntireFunctionality:
     def __init__(self) -> None:
@@ -49,6 +52,7 @@ class TestEntireFunctionality:
         self.category_pk_1: int = Category.objects.get(title="E").pk
         self.color_pk_1: int = Color.objects.get(title="P").pk
         self.product_set_method: ProductSetMethod = ProductSetMethod.PINK_SET
+        self.filtration_method: FiltrationMethod = FiltrationMethod.INTO_PRODUCTS_LIST
 
     def test_register_user(self) -> str:
         try:
@@ -57,7 +61,6 @@ class TestEntireFunctionality:
         except ValidationError as e:
             return e.messages[0]
 
-
     def test_register_user_with_duplicate_email(self) -> str:
         try:
             UserCredentialDetails.objects.create(self.user_email, self.user_password)
@@ -65,13 +68,12 @@ class TestEntireFunctionality:
         except ValidationError as e:
             return e.messages[0]
 
+    def test_get_product_details_into_product_list_page(self):
 
-def test_get_product_details_into_product_list_page(category_pk, color_pk):
+        return execute_filtration(
+            self.category_pk_1, self.color_pk_1, self.filtration_method
+        )
 
-    return execute_filtration(
-        category_pk, color_pk, FiltrationMethod.INTO_PRODUCTS_LIST
-    )
-    
 
 def test_get_product_details_into_product_page(category_pk, color_pk):
 
@@ -81,15 +83,17 @@ def test_get_product_details_into_product_page(category_pk, color_pk):
 def test_get_pink_product_set(method: ProductSetMethod) -> str:
     return execute_product_set(method)
 
+
 def test_execute_clicking_on_the_like_button_expect_to_add(product, user):
     return Wishlist.objects.execute_like_button_click(product, user)
+
 
 def test_get_products_in_user_wishlist(user):
     return Wishlist.objects.get_all_liked_products(user)
 
+
 def test_execute_clicking_on_the_like_button_expect_to_remove(product, user):
     return Wishlist.objects.execute_like_button_click(product, user)
-        
 
 
 print(test_register_user(email="beatrisilieve@icloud.com", password="123456Aa@"))
