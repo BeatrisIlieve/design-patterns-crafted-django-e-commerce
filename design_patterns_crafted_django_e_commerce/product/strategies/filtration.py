@@ -127,7 +127,7 @@ class FiltrationContext:
         return self._strategy.get_entity_details(category_pk, color_pk)
 
 
-def get_entity_details(category_pk, color_pk, method: FiltrationMethod):
+def execute_filtration(category_pk, color_pk, method: FiltrationMethod):
     """
     Factory function to fetch product details based on the selected filtration method.
     """
@@ -138,4 +138,4 @@ def get_entity_details(category_pk, color_pk, method: FiltrationMethod):
     }
 
     context = FiltrationContext(strategy=strategies[method])
-    return context.get_entity_details(category_pk, color_pk)
+    return context.execute_filtration(category_pk, color_pk)

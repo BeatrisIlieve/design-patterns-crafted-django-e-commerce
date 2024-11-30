@@ -53,7 +53,7 @@ class ProductSetContext:
         return self._strategy.get_product_set()
 
 
-def get_product_set(method: ProductSetMethod):
+def execute_product_set(method: ProductSetMethod):
 
     strategies = {
         ProductSetMethod.PINK_SET: PinkProductSet(),
@@ -62,4 +62,4 @@ def get_product_set(method: ProductSetMethod):
     }
 
     context = ProductSetContext(strategy=strategies[method])
-    return context.get_product_set()
+    return context.execute_product_set()
