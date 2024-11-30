@@ -44,7 +44,6 @@ class IntoProductsListDetails(FiltrationStrategy):
         entity = Product.objects.represent_entity_into_products_list(
             category_pk, color_pk
         )
-    
 
         result = []
 
@@ -57,14 +56,6 @@ class IntoProductsListDetails(FiltrationStrategy):
 
             result.append(f"Price Range: {data.min_price} - {data.max_price}")
             result.append(f"Is sold out: {data.is_sold_out}")
-            
-
-            # for inventory in data.product_inventory.all():
-            #     result.append(f"Inventory Quantity: {inventory.quantity}")
-            #     result.append(f"Price Amount: {inventory.price}")
-            #     result.append(
-            #         f"  Is Sold Out: {'Yes' if inventory.is_sold_out else 'No'}"
-            #     )
 
         return "\n".join(result)
 
@@ -78,7 +69,6 @@ class IntoProductPageDetails(FiltrationStrategy):
         result = []
 
         for data in entity:
-            result.append(f"Product: {data}")
             result.append(f"Category: {data.category.get_title_display()}")
             result.append(f"Color: {data.color.get_title_display()}")
             result.append(f"First Image: {data.first_image_url}")
@@ -88,7 +78,6 @@ class IntoProductPageDetails(FiltrationStrategy):
             for inventory in data.product_inventory.all():
                 result.append(f"Size Measurement: {inventory.size}")
                 result.append(f"Inventory Quantity: {inventory.quantity}")
-                result.append(f"Size Measurement: {inventory.size}")
                 result.append(f"Price Amount: {inventory.price}")
                 result.append(
                     f"Is Sold Out: {'Yes' if inventory.is_sold_out else 'No'}"

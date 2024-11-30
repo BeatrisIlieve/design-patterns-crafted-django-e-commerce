@@ -65,6 +65,11 @@ def test_get_product_details_into_product_list_page(category_pk, color_pk):
     )
 
 
+def test_get_product_details_into_product_page(category_pk, color_pk):
+
+    return execute_filtration(category_pk, color_pk, FiltrationMethod.INTO_PRODUCT_PAGE)
+
+
 print(test_register_user(email="beatrisilieve@icloud.com", password="123456Aa@"))
 
 print(
@@ -77,9 +82,38 @@ category_pk_1 = Category.objects.get(title="E").pk
 color_pk_1 = Color.objects.get(title="P").pk
 
 print(test_get_product_details_into_product_list_page(category_pk_1, color_pk_1))
+
+print(test_get_product_details_into_product_page(category_pk_1, color_pk_1))
 """
 OUTPUT:
 
 User with email beatrisilieve@icloud.com has successfully registered. 
+
 User with that email address already exists.
+
+Product: Pink Earrings
+Category: Earrings
+Color: Pink
+First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
+Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
+Price Range: 43000.00 - 45000.00
+Is sold out: False
+
+Category: Earrings
+Color: Pink
+First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
+Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
+Description: 28 pear-shaped and round brilliant sapphires weighing a total of approximately 3.20 carats and 28 marquise and round brilliant diamonds weighing a total of approximately 1.98 carats, set in platinum.
+Size Measurement: 4.05
+Inventory Quantity: 3
+Price Amount: 43000.00
+Is Sold Out: No
+Size Measurement: 4.98
+Inventory Quantity: 3
+Price Amount: 44000.00
+Is Sold Out: No
+Size Measurement: 5.86
+Inventory Quantity: 3
+Price Amount: 45000.00
+Is Sold Out: No
 """
