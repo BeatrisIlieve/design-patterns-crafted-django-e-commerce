@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 
 
-from django_ecommerce_strategy_pattern.product.filtration_strategy import (
-    get_entity_details,
+from design_patterns_crafted_django_e_commerce.product.strategies.filtration import (
+    execute_filtration,
     FiltrationMethod,
 )
 
-from .models import (
+from design_patterns_crafted_django_e_commerce.product.models import (
     Color,
     Category,
 )
@@ -58,7 +58,7 @@ class ProductMixin:
         self.category_pk = Category.objects.get(title=category_title).pk
 
     def get_product(self):
-        return get_entity_details(
+        return execute_filtration(
             self.category_pk, self.color_pk, FiltrationMethod.INTO_PRODUCTS_LIST
         )
 

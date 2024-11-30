@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from enum import Enum
+from abc import (
+    ABC,
+    abstractmethod,
+)
+from enum import (
+    Enum,
+)
 
-from .factories.p import (
+from design_patterns_crafted_django_e_commerce.product.factories.product_set import (
     PinkProductSetFactory,
     BlueProductSetFactory,
     WhiteProductSetFactory,

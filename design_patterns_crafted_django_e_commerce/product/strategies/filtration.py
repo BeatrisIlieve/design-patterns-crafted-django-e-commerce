@@ -6,7 +6,7 @@ approach for retrieving different levels of product details based on user prefer
 from abc import ABC, abstractmethod
 from enum import Enum
 
-from .models import (
+from design_patterns_crafted_django_e_commerce.product.models import (
     Product,
 )
 
