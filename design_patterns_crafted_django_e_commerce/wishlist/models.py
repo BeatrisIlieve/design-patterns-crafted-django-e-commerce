@@ -1,3 +1,28 @@
 from django.db import models
 
-# Create your models here.
+from design_patterns_crafted_django_e_commerce.product.models import (
+    Product,
+)
+from design_patterns_crafted_django_e_commerce.user_credential_details.models import (
+    UserCredentialDetails,
+)
+
+
+class Wishlist(models.Model):
+    class Meta:
+        unique_together = (
+            "user",
+            "product",
+        )
+
+    product = models.ForeignKey(
+        to=Product,
+        on_delete=models.CASCADE,
+        related_name="product_wishlist",
+    )
+
+    user = models.ForeignKey(
+        to=UserCredentialDetails,
+        on_delete=models.CASCADE,
+        related_name="user_wishlist",
+    )
