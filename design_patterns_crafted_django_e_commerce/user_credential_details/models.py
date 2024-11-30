@@ -15,13 +15,12 @@ from .managers import (
     UserCredentialDetailsManager,
 )
 
-# from django_ecommerce_strategy_pattern.user_shipping_details.models import (
-#     UserShippingDetails,
-# )
-
-# from django_ecommerce_strategy_pattern.user_payment_details.models import (
-#     UserPaymentDetails,
-# )
+from design_patterns_crafted_django_e_commerce.user_shipping_details.models import (
+    UserShippingDetails,
+)
+from design_patterns_crafted_django_e_commerce.user_payment_details.models import (
+    UserPaymentDetails,
+)
 
 
 class UserCredentialDetails(AbstractBaseUser, PermissionsMixin):
