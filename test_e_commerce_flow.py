@@ -36,9 +36,9 @@ from design_patterns_crafted_django_e_commerce.product.models import (
     Color,
     Product,
 )
-
-from design_patterns_crafted_django_e_commerce.inventory.models import (
-    Inventory,
+from design_patterns_crafted_django_e_commerce.product.strategies.product_set import (
+    ProductSetMethod,
+    execute_product_set,
 )
 
 
@@ -70,20 +70,26 @@ def test_get_product_details_into_product_page(category_pk, color_pk):
     return execute_filtration(category_pk, color_pk, FiltrationMethod.INTO_PRODUCT_PAGE)
 
 
-print(test_register_user(email="beatrisilieve@icloud.com", password="123456Aa@"))
+def test_get_pink_product_set(method: ProductSetMethod) -> str:
+    return execute_product_set(method)
 
+
+print(test_register_user(email="beatrisilieve@icloud.com", password="123456Aa@"))
+print()
 print(
     test_register_user_with_duplicate_email(
         email="beatrisilieve@icloud.com", password="123456Aa@"
     )
 )
-
+print()
 category_pk_1 = Category.objects.get(title="E").pk
 color_pk_1 = Color.objects.get(title="P").pk
 
 print(test_get_product_details_into_product_list_page(category_pk_1, color_pk_1))
-
+print()
 print(test_get_product_details_into_product_page(category_pk_1, color_pk_1))
+print()
+print(test_get_pink_product_set(ProductSetMethod.PINK_SET))
 """
 OUTPUT:
 
@@ -116,4 +122,29 @@ Size Measurement: 5.86
 Inventory Quantity: 3
 Price Amount: 45000.00
 Is Sold Out: No
+
+Category: Earrings
+Color: Pink
+First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
+Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
+Price Range: 43000.00 - 45000.00
+Is sold out: False
+Category: Bracelets
+Color: Pink
+First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714894/forget-me-not-collection/bracelets/forget_me_not_bracelet_diamond_and_pink_sapphire_brpsprfflrfmn_e_1_vz9pv4.avif
+Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714893/forget-me-not-collection/bracelets/forget_me_not_bracelet_diamond_and_pink_sapphire_brpsprfflrfmn_e_2_kdpnm6.avif
+Price Range: 34000.00 - 36000.00
+Is sold out: False
+Category: Necklaces
+Color: Pink
+First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714890/forget-me-not-collection/necklaces/forget_me_not_lariat_necklace_diamond_and_pink_sapphire_nkpspltflrfmn_e_1_kuxbds.webp
+Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714890/forget-me-not-collection/necklaces/forget_me_not_lariat_necklace_diamond_and_pink_sapphire_nkpspltflrfmn_e_2_d2fc78.webp
+Price Range: 55000.00 - 57000.00
+Is sold out: False
+Category: Rings
+Color: Pink
+First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714892/forget-me-not-collection/rings/forget_me_not_ring_diamond_and_pink_sapphire_frpsprfflrfmn_e_1_qfumu3.webp
+Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714892/forget-me-not-collection/rings/forget_me_not_ring_diamond_and_pink_sapphire_frpsprfflrfmn_e_2_k7nhpe.avif
+Price Range: 23000.00 - 25000.00
+Is sold out: False
 """

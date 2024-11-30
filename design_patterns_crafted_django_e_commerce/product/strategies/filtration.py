@@ -48,7 +48,6 @@ class IntoProductsListDetails(FiltrationStrategy):
         result = []
 
         for data in entity:
-            result.append(f"Product: {data}")
             result.append(f"Category: {data.category.get_title_display()}")
             result.append(f"Color: {data.color.get_title_display()}")
             result.append(f"First Image: {data.first_image_url}")

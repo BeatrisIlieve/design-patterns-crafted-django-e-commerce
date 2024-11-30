@@ -122,7 +122,7 @@ class PinkProductSetFactory(AbstractProductSetFactory):
         necklace = self.create_necklace()
         ring = self.create_ring()
 
-        return [earring, bracelet, necklace, ring]
+        return "\n".join([earring, bracelet, necklace, ring])
 
 
 class BlueProductSetFactory(AbstractProductSetFactory):
@@ -146,7 +146,7 @@ class BlueProductSetFactory(AbstractProductSetFactory):
         necklace = self.create_necklace()
         ring = self.create_ring()
 
-        return [earring, bracelet, necklace, ring]
+        return "\n".join([earring, bracelet, necklace, ring])
 
 
 class WhiteProductSetFactory(AbstractProductSetFactory):
@@ -170,4 +170,4 @@ class WhiteProductSetFactory(AbstractProductSetFactory):
         necklace = self.create_necklace()
         ring = self.create_ring()
 
-        return [earring, bracelet, necklace, ring]
+        return "\n".join([earring, bracelet, necklace, ring])
