@@ -3,9 +3,7 @@ from django.core.validators import (
     MaxValueValidator,
 )
 
-from design_patterns_crafted_django_e_commerce.inventory.managers import (
-    InventoryManager,
-)
+
 from design_patterns_crafted_django_e_commerce.product.models import (
     Product,
 )
