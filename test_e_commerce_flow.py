@@ -20,9 +20,6 @@ django.setup()
 from django.core.exceptions import (
     ValidationError,
 )
-from django.db.utils import (
-    IntegrityError,
-)
 
 from design_patterns_crafted_django_e_commerce.user_credential_details.models import (
     UserCredentialDetails,
@@ -134,7 +131,6 @@ instance = TestEntireFunctionality()
 print(instance.execute())
 
 # OUTPUT:
-
 """
 User with email beatrisilieve@icloud.com has successfully registered. 
 
