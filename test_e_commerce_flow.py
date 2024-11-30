@@ -52,7 +52,12 @@ class TestEntireFunctionality:
         self.category_pk_1: int = Category.objects.get(title="E").pk
         self.color_pk_1: int = Color.objects.get(title="P").pk
         self.product_set_method: ProductSetMethod = ProductSetMethod.PINK_SET
-        self.filtration_method: FiltrationMethod = FiltrationMethod.INTO_PRODUCTS_LIST
+        self.filtration_method_into_products_list: FiltrationMethod = (
+            FiltrationMethod.INTO_PRODUCTS_LIST
+        )
+        self.filtration_method_into_product_page: FiltrationMethod = (
+            FiltrationMethod.INTO_PRODUCT_PAGE
+        )
 
     def test_register_user(self) -> str:
         try:
@@ -71,13 +76,18 @@ class TestEntireFunctionality:
     def test_get_product_details_into_product_list_page(self):
 
         return execute_filtration(
-            self.category_pk_1, self.color_pk_1, self.filtration_method
+            self.category_pk_1,
+            self.color_pk_1,
+            self.filtration_method_into_products_list,
         )
 
+    def test_get_product_details_into_product_page(self):
 
-def test_get_product_details_into_product_page(category_pk, color_pk):
-
-    return execute_filtration(category_pk, color_pk, FiltrationMethod.INTO_PRODUCT_PAGE)
+        return execute_filtration(
+            self.category_pk_1,
+            self.color_pk_1,
+            self.filtration_method_into_product_page,
+        )
 
 
 def test_get_pink_product_set(method: ProductSetMethod) -> str:
