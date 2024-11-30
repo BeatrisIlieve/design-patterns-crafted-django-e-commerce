@@ -39,7 +39,7 @@ class WishlistManager(models.Manager):
     def __remove_product_from_wishlist(self, product, user):
         self.filter(product=product, user=user).delete()
 
-        return "Product has removed from the wishlist"
+        return "Product has been removed from the wishlist"
 
     def execute_like_button_click(self, product, user):
         if self.__check_if_a_product_is_liked_by_user(product, user):

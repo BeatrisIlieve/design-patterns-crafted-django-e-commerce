@@ -47,95 +47,98 @@ from design_patterns_crafted_django_e_commerce.wishlist.models import (
 
 class TestEntireFunctionality:
     def __init__(self) -> None:
-        self.user_email: str = "beatrisilieve@icloud.com"
-        self.user_password: str = "123456Aa@"
-        self.category_pk_1: int = Category.objects.get(title="E").pk
-        self.color_pk_1: int = Color.objects.get(title="P").pk
-        self.product_set_method: ProductSetMethod = ProductSetMethod.PINK_SET
-        self.filtration_method_into_products_list: FiltrationMethod = (
+        self.__user_email: str = "beatrisilieve@icloud.com"
+        self.__user_password: str = "123456Aa@"
+        self.__category_pk_1: int = Category.objects.get(title="E").pk
+        self.__color_pk_1: int = Color.objects.get(title="P").pk
+        self.__product_set_method: ProductSetMethod = ProductSetMethod.PINK_SET
+        self.__filtration_method_into_products_list: FiltrationMethod = (
             FiltrationMethod.INTO_PRODUCTS_LIST
         )
-        self.filtration_method_into_product_page: FiltrationMethod = (
+        self.__filtration_method_into_product_page: FiltrationMethod = (
             FiltrationMethod.INTO_PRODUCT_PAGE
         )
+        self.__product: Product = Product.objects.filter(
+            category_id=self.__category_pk_1, color_id=self.__color_pk_1
+        ).first()
+        self.__user: UserCredentialDetails = None
 
-    def test_register_user(self) -> str:
+    def __test_register_user(self) -> str:
         try:
-            UserCredentialDetails.objects.create(self.user_email, self.user_password)
-            return f"User with email {self.user_email} has successfully registered."
+            user = UserCredentialDetails.objects.create(
+                email=self.__user_email, password=self.__user_password
+            )
+
+            self.__user = user
+
+            return f"User with email {self.__user_email} has successfully registered."
         except ValidationError as e:
             return e.messages[0]
 
-    def test_register_user_with_duplicate_email(self) -> str:
+    def __test_register_user_with_duplicate_email(self) -> str:
         try:
-            UserCredentialDetails.objects.create(self.user_email, self.user_password)
-            return f"User with email {self.user_email} has successfully registered."
+            UserCredentialDetails.objects.create(
+                email=self.__user_email, password=self.__user_password
+            )
+            return f"User with email {self.__user_email} has successfully registered."
         except ValidationError as e:
             return e.messages[0]
 
-    def test_get_product_details_into_product_list_page(self):
+    def __test_get_product_details_into_product_list_page(self):
 
         return execute_filtration(
-            self.category_pk_1,
-            self.color_pk_1,
-            self.filtration_method_into_products_list,
+            self.__category_pk_1,
+            self.__color_pk_1,
+            self.__filtration_method_into_products_list,
         )
 
-    def test_get_product_details_into_product_page(self):
+    def __test_get_product_details_into_product_page(self):
 
         return execute_filtration(
-            self.category_pk_1,
-            self.color_pk_1,
-            self.filtration_method_into_product_page,
+            self.__category_pk_1,
+            self.__color_pk_1,
+            self.__filtration_method_into_product_page,
         )
 
+    def __test_get_pink_product_set(self) -> str:
+        return execute_product_set(self.__product_set_method)
 
-def test_get_pink_product_set(method: ProductSetMethod) -> str:
-    return execute_product_set(method)
+    def __test_execute_clicking_on_the_like_button_expect_to_add(self):
+        return Wishlist.objects.execute_like_button_click(self.__product, self.__user)
+
+    def __test_get_products_in_user_wishlist(self):
+        return Wishlist.objects.get_all_liked_products(self.__user)
+
+    def __test_execute_clicking_on_the_like_button_expect_to_remove(self):
+        return Wishlist.objects.execute_like_button_click(self.__product, self.__user)
+
+    def execute(self):
+        result = []
+
+        result.append(self.__test_register_user())
+        result.append(self.__test_register_user_with_duplicate_email())
+        result.append(self.__test_get_product_details_into_product_list_page())
+        result.append(self.__test_get_product_details_into_product_page())
+        result.append(self.__test_get_pink_product_set())
+        result.append(self.__test_execute_clicking_on_the_like_button_expect_to_add())
+        result.append(self.__test_get_products_in_user_wishlist())
+        result.append(
+            self.__test_execute_clicking_on_the_like_button_expect_to_remove()
+        )
+
+        return "\n\n".join(result)
 
 
-def test_execute_clicking_on_the_like_button_expect_to_add(product, user):
-    return Wishlist.objects.execute_like_button_click(product, user)
+instance = TestEntireFunctionality()
 
+print(instance.execute())
 
-def test_get_products_in_user_wishlist(user):
-    return Wishlist.objects.get_all_liked_products(user)
+# OUTPUT:
 
-
-def test_execute_clicking_on_the_like_button_expect_to_remove(product, user):
-    return Wishlist.objects.execute_like_button_click(product, user)
-
-
-print(test_register_user(email="beatrisilieve@icloud.com", password="123456Aa@"))
-print()
-print(
-    test_register_user_with_duplicate_email(
-        email="beatrisilieve@icloud.com", password="123456Aa@"
-    )
-)
-print()
-category_pk_1 = Category.objects.get(title="E").pk
-color_pk_1 = Color.objects.get(title="P").pk
-
-print(test_get_product_details_into_product_list_page(category_pk_1, color_pk_1))
-print()
-print(test_get_product_details_into_product_page(category_pk_1, color_pk_1))
-print()
-print(test_get_pink_product_set(ProductSetMethod.PINK_SET))
-print()
-product = Product.objects.filter(category_id=category_pk_1, color_id=color_pk_1).first()
-user = UserCredentialDetails.objects.get(email="beatrisilieve@icloud.com")
-print(test_execute_clicking_on_the_like_button_expect_to_add(product, user))
-print()
-print(test_get_products_in_user_wishlist(user))
-print()
-print(test_execute_clicking_on_the_like_button_expect_to_remove(product, user))
 """
-OUTPUT:
-
 User with email beatrisilieve@icloud.com has successfully registered. 
 
-User with that email address already exists.
+User with that email address already exists
 
 Category: Earrings
 Color: Pink
@@ -187,13 +190,6 @@ Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714892/forg
 Price Range: 23000.00 - 25000.00
 Is sold out: False
 
-Category: Earrings
-Color: Pink
-First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
-Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
-Price Range: 43000.00 - 45000.00
-Is sold out: False
-
 Product has been added to wishlist
 
 Category: Earrings
@@ -203,14 +199,5 @@ Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forg
 Price Range: 43000.00 - 45000.00
 Is sold out: False
 
-Product has been added to wishlist
-
-Category: Earrings
-Color: Pink
-First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
-Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
-Price Range: 43000.00 - 45000.00
-Is sold out: False
-
-Product has removed from the wishlist
+Product has been removed from the wishlist
 """
