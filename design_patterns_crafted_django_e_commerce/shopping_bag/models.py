@@ -1,3 +1,12 @@
-from django.db import models
+from .managers import (
+    ShoppingBagManager,
+)
 
-# Create your models here.
+from design_patterns_crafted_django_e_commerce.common.models.base_shopping_item import (
+    BaseShoppingItem,
+)
+
+
+class ShoppingBag(BaseShoppingItem):
+
+    objects = ShoppingBagManager()
