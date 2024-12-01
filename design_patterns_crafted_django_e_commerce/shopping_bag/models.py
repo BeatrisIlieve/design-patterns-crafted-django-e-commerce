@@ -2,11 +2,11 @@ from .managers import (
     ShoppingBagManager,
 )
 
-from design_patterns_crafted_django_e_commerce.common.models.base_shopping_item import (
-    BaseShoppingItem,
+
+from design_patterns_crafted_django_e_commerce.common.models.base_shopping_entity import (
+    BaseShoppingEntity,
 )
 
 
-class ShoppingBag(BaseShoppingItem):
-
+class ShoppingBag(BaseShoppingEntity):
     objects = ShoppingBagManager()

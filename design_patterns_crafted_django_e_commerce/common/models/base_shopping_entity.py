@@ -2,9 +2,6 @@ from django.db import (
     models,
 )
 
-from design_patterns_crafted_django_e_commerce.common.managers import (
-    BaseShoppingItemManager,
-)
 from design_patterns_crafted_django_e_commerce.user_credential_details.models import (
     UserCredentialDetails,
 )
@@ -13,13 +10,7 @@ from design_patterns_crafted_django_e_commerce.inventory.models import (
 )
 
 
-class BaseShoppingItem(models.Model):
-    class Meta:
-        abstract = True
-        unique_together = ("user", "inventory")
-
-    objects = BaseShoppingItemManager()
-
+class InventoryItems(models.Model):
     quantity = models.PositiveIntegerField(
         default=1,
     )
@@ -27,15 +18,19 @@ class BaseShoppingItem(models.Model):
     inventory = models.ForeignKey(
         to=Inventory,
         on_delete=models.CASCADE,
-        related_name="inventory",
+    )
+
+
+class BaseShoppingEntity(models.Model):
+    class Meta:
+        abstract = True
+
+    items = models.ForeignKey(
+        to=InventoryItems,
+        on_delete=models.CASCADE,
     )
 
     user = models.ForeignKey(
         to=UserCredentialDetails,
         on_delete=models.CASCADE,
-        related_name="user_shopping_bag",
     )
-
-    @property
-    def total_price(self):
-        return BaseShoppingItem.objects.calculate_total_price(self.user)
