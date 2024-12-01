@@ -8,8 +8,8 @@ from django.db.models import (
 
 
 class ShoppingBagManager(models.Manager):
-    def add_or_update_item(self, user, inventory):
-        shopping_bag_item, created = self.get_or_create(user=user, inventory=inventory)
+    def add_or_update_item(self, user, items):
+        shopping_bag_item, created = self.get_or_create(user=user, items=items)
 
         if not created:
 
