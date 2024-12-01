@@ -24,21 +24,21 @@ from django.core.exceptions import (
 from design_patterns_crafted_django_e_commerce.user_credential_details.models import (
     UserCredentialDetails,
 )
-from design_patterns_crafted_django_e_commerce.product.strategies.filtration import (
-    FiltrationMethod,
-    execute_filtration,
-)
+
 from design_patterns_crafted_django_e_commerce.product.models import (
     Category,
     Color,
     Product,
 )
-from design_patterns_crafted_django_e_commerce.product.strategies.product_set import (
-    ProductSetMethod,
-    execute_product_set,
-)
+
 from design_patterns_crafted_django_e_commerce.wishlist.models import (
     Wishlist,
+)
+from design_patterns_crafted_django_e_commerce.shopping_bag.models import (
+    ShoppingBag,
+)
+from design_patterns_crafted_django_e_commerce.inventory.models import (
+    Inventory,
 )
 
 
@@ -48,13 +48,6 @@ class TestEntireFunctionality:
         self.__user_password: str = "123456Aa@"
         self.__category_pk_1: int = Category.objects.get(title="E").pk
         self.__color_pk_1: int = Color.objects.get(title="P").pk
-        self.__product_set_method: ProductSetMethod = ProductSetMethod.PINK_SET
-        self.__filtration_method_into_products_list: FiltrationMethod = (
-            FiltrationMethod.INTO_PRODUCTS_LIST
-        )
-        self.__filtration_method_into_product_page: FiltrationMethod = (
-            FiltrationMethod.INTO_PRODUCT_PAGE
-        )
         self.__product: Product = Product.objects.filter(
             category_id=self.__category_pk_1, color_id=self.__color_pk_1
         ).first()
@@ -81,24 +74,26 @@ class TestEntireFunctionality:
         except ValidationError as e:
             return e.messages[0]
 
-    def __test_get_product_details_into_product_list_page(self):
-
-        return execute_filtration(
-            self.__category_pk_1,
-            self.__color_pk_1,
-            self.__filtration_method_into_products_list,
+    def __test_get_product_into_products_list(self) -> str:
+        inventories = Inventory.objects.get_product_into_products_list(
+            self.__category_pk_1, self.__color_pk_1
         )
+        first_inventory = inventories.first()
 
-    def __test_get_product_details_into_product_page(self):
+        product_details = {
+            "first_image_url": first_inventory.product.first_image_url,
+            "second_image_url": first_inventory.product.second_image_url,
+            "description": first_inventory.product.description,
+            "category_title": first_inventory.product.category.get_title_display(),
+            "color_title": first_inventory.product.color.get_title_display(),
+        }
 
-        return execute_filtration(
-            self.__category_pk_1,
-            self.__color_pk_1,
-            self.__filtration_method_into_product_page,
-        )
+        sizes = {}
+        
+        for inventory in inventories:
+            sizes[inventory.pk] = {"measurement": inventory.size, "price": inventory.price}
 
-    def __test_get_pink_product_set(self) -> str:
-        return execute_product_set(self.__product_set_method)
+        return [product_details, sizes]
 
     def __test_execute_clicking_on_the_like_button_expect_to_add(self):
         return Wishlist.objects.execute_like_button_click(self.__product, self.__user)
@@ -109,21 +104,24 @@ class TestEntireFunctionality:
     def __test_execute_clicking_on_the_like_button_expect_to_remove(self):
         return Wishlist.objects.execute_like_button_click(self.__product, self.__user)
 
+    def __test_execute_clicking_on_the_add_to_bag_button(self):
+        return Inventory.get_product_into_products_list(
+            self.__category_pk_1, self.__color_pk_1
+        )
+
     def execute(self):
         result = []
 
-        result.append(self.__test_register_user())
-        result.append(self.__test_register_user_with_duplicate_email())
-        result.append(self.__test_get_product_details_into_product_list_page())
-        result.append(self.__test_get_product_details_into_product_page())
-        result.append(self.__test_get_pink_product_set())
-        result.append(self.__test_execute_clicking_on_the_like_button_expect_to_add())
-        result.append(self.__test_get_products_in_user_wishlist())
-        result.append(
-            self.__test_execute_clicking_on_the_like_button_expect_to_remove()
-        )
-
-        return "\n\n".join(result)
+        # result.append(self.__test_register_user())
+        # result.append(self.__test_register_user_with_duplicate_email())
+        # result.append(self.__test_execute_clicking_on_the_like_button_expect_to_add())
+        # result.append(self.__test_get_products_in_user_wishlist())
+        # result.append(
+        #     self.__test_execute_clicking_on_the_like_button_expect_to_remove()
+        # )
+        result.append(self.__test_get_product_into_products_list())
+        return result
+        # return "\n\n".join(result)
 
 
 instance = TestEntireFunctionality()

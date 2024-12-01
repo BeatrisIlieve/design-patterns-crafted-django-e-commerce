@@ -51,18 +51,16 @@ class Product(models.Model):
     category = models.ForeignKey(
         to=Category,
         on_delete=models.CASCADE,
-        related_name="category",
     )
 
     color = models.ForeignKey(
         to=Color,
         on_delete=models.CASCADE,
-        related_name="color",
     )
 
     description = models.TextField(
         max_length=300,
     )
 
-    def __str__(self):
-        return f"{self.color.get_title_display()} {self.category.get_title_display()}"
+    # def __str__(self):
+    #     return f"{self.color_set.get_title_display()} {self.category_set.get_title_display()}"

@@ -3,6 +3,9 @@ from django.core.validators import (
     MaxValueValidator,
 )
 
+from .managers import (
+    InventoryManager,
+)
 
 from design_patterns_crafted_django_e_commerce.product.models import (
     Product,
@@ -14,6 +17,8 @@ class Inventory(models.Model):
     class Meta:
         unique_together = ("product", "size")
         verbose_name_plural = "Inventories"
+        
+    objects = InventoryManager()
 
     quantity = models.PositiveIntegerField(
         validators=[
@@ -26,7 +31,6 @@ class Inventory(models.Model):
     product = models.ForeignKey(
         to=Product,
         on_delete=models.CASCADE,
-        related_name="product_inventory",
     )
 
     size = models.DecimalField(
