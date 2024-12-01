@@ -88,14 +88,14 @@ class InventoryManager(models.Manager):
             )
             .select_related("product", "product__category", "product__color")
             .values(
-                "product_id", 
-                "product__category_id",  
-                "product__color_id",  
-                "product__first_image_url",  # Include first image URL for the product
-                "product__second_image_url",  # Include second image URL for the product
-                "product__description",  # Include description for the product
-                "product__category__title",  # Category title
-                "product__color__title",  # Color title
+                "product_id",
+                "product__category_id",
+                "product__color_id",
+                "product__first_image_url",
+                "product__second_image_url",
+                "product__description",
+                "product__category__title",
+                "product__color__title",
             )
             .annotate(
                 inventory_details=StringAgg(
