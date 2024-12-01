@@ -51,6 +51,3 @@ class Inventory(models.Model):
         auto_now=True,
     )
 
-    @property
-    def is_sold_out(self):
-        return self.quantity <= 0
