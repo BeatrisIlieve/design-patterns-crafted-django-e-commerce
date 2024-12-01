@@ -88,9 +88,9 @@ class InventoryManager(models.Manager):
             )
             .select_related("product", "product__category", "product__color")
             .values(
-                "product_id",  # Group by product
-                "product__category_id",  # Group by category
-                "product__color_id",  # Group by color
+                "product_id", 
+                "product__category_id",  
+                "product__color_id",  
                 "product__first_image_url",  # Include first image URL for the product
                 "product__second_image_url",  # Include second image URL for the product
                 "product__description",  # Include description for the product
