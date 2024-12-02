@@ -8,14 +8,14 @@ from django.db.models import (
     Value,
     CharField,
 )
-from django.db.models.functions import Concat, ConcatPair
-from django.contrib.postgres.aggregates import StringAgg, JSONBAgg
-from django.db.models.expressions import RawSQL
 
-from design_patterns_crafted_django_e_commerce.product.models import Category, Product
-from django.db import connection
+from django.contrib.postgres.aggregates import (
+    JSONBAgg,
+)
 
-from django.db.models.functions import JSONObject
+from django.db.models.functions import (
+    JSONObject,
+)
 
 
 class InventoryManager(models.Manager):
