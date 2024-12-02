@@ -55,7 +55,8 @@ class TestEntireFunctionality:
         self.__product: Product = Product.objects.filter(
             category_id=self.__category_pk_1, color_id=self.__color_pk_1
         ).first()
-        self.__user: UserCredentialDetails = None
+        # self.__user: UserCredentialDetails = None
+        self.__user = UserCredentialDetails.objects.get(pk=1)
 
     def __test_register_user(self) -> str:
         try:
@@ -137,8 +138,23 @@ class TestEntireFunctionality:
 
         return result
 
-    def __test_execute_clicking_on_the_like_button_expect_to_add(self):
-        return Wishlist.objects.execute_like_button_click(self.__product, self.__user)
+    def __test_execute_clicking_on_the_like_button(self):
+        inventories = Inventory.objects.get_product_into_products_list(
+            self.__category_pk_1, self.__color_pk_1
+        )
+                
+        is_liked_by_user = Wishlist.objects.check_if_a_product_is_liked_by_user(
+            inventories[0]["product_id"], self.__user
+        )
+        
+        if is_liked_by_user:
+            Wishlist.objects.remove_product_from_wishlist(inventories[0]["product_id"], self.__user)
+            return "Product has been removed from wishlist"
+        
+        Wishlist.objects.add_product_to_wishlist(inventories[0]["product_id"], self.__user)
+        
+        return "Product added to wishlist"
+
 
     def __test_get_products_in_user_wishlist(self):
         return Wishlist.objects.get_all_liked_products(self.__user)
@@ -156,8 +172,8 @@ class TestEntireFunctionality:
         # result.append(self.__test_register_user())
         # result.append(self.__test_register_user_with_duplicate_email())
         # result = self.__test_get_product_into_products_list_page()
-        result = self.__test_get_product_into_product_page()
-        # result.append(self.__test_execute_clicking_on_the_like_button_expect_to_add())
+        # result = self.__test_get_product_into_product_page()
+        result = self.__test_execute_clicking_on_the_like_button()
         # result.append(self.__test_get_products_in_user_wishlist())
         # result.append(
         #     self.__test_execute_clicking_on_the_like_button_expect_to_remove()
