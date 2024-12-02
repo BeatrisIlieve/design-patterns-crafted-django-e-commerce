@@ -7,6 +7,7 @@
 6. Run the current file
 7. Compare the result with the output at the bottom of the current file
 """
+
 import json
 import os
 import django
@@ -75,31 +76,31 @@ class TestEntireFunctionality:
             return e.messages[0]
 
     def __test_get_product_into_products_list_page(self) -> str:
-        
+
         inventories = Inventory.objects.get_product_into_products_list(
             self.__category_pk_1, self.__color_pk_1
         )
-        
+
         inventory_details = inventories[0]["inventory_details"]
-        
+
         sizes_by_inventory_id_and_price = []
-        
+
         for item in inventory_details:
             for key, value in item.items():
                 sizes_by_inventory_id_and_price.append(f"{key}: {value}")
             sizes_by_inventory_id_and_price.append("\n")
-        
-        result = "\n\n".join([
-            "Product details into products list page:",
-            f"First image: {inventories[0]['product__first_image_url']}",
-            f"Second image: {inventories[0]['product__second_image_url']}",
-            f"Description: {inventories[0]['product__description']}",
-            f"Category: {inventories[0]['full_category_title']}",
-            f"Color: {inventories[0]['full_color_title']}",
-            "\n".join(sizes_by_inventory_id_and_price)
-        ])
-        
 
+        result = "\n\n".join(
+            [
+                "Product details into products list page:",
+                f"First image: {inventories[0]['product__first_image_url']}",
+                f"Second image: {inventories[0]['product__second_image_url']}",
+                f"Description: {inventories[0]['product__description']}",
+                f"Category: {inventories[0]['full_category_title']}",
+                f"Color: {inventories[0]['full_color_title']}",
+                "\n".join(sizes_by_inventory_id_and_price),
+            ]
+        )
 
         return result
 
@@ -128,7 +129,7 @@ class TestEntireFunctionality:
         #     self.__test_execute_clicking_on_the_like_button_expect_to_remove()
         # )
         # result.append(self.__test_get_product_into_products_list_page())
-        return result   
+        return result
         # return "\n\n".join(result)
 
 
