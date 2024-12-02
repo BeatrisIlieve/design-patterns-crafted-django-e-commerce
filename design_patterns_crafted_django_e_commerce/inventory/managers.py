@@ -19,7 +19,7 @@ from django.db.models.functions import (
 
 
 class InventoryManager(models.Manager):
-    def get_product_into_products_list(self, category_pk, color_pk):
+    def get_product_into_product_page(self, category_pk, color_pk):
 
         result = (
             self.filter(
@@ -68,5 +68,5 @@ class InventoryManager(models.Manager):
 
         return result
 
-    def get_product_into_product_page(self):
+    def get_product_into_products_list(self):
         pass
