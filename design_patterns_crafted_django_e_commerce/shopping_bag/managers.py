@@ -23,32 +23,34 @@ class ShoppingBagManager(models.Manager):
             shopping_bag_item.save()
 
             return "Shopping bag item quantity has been increased"
-        
+
         return "Item has been added to shopping bag"
-    
+
     def increase_item_quantity(self, inventory_pk, user):
         inventory = Inventory.objects.get(pk=inventory_pk)
-        
+
         if inventory.quantity == 0:
             return "Not enough inventory quantity"
-    
+
         self.filter(inventory=inventory, user=user).update(quantity=F("quantity") + 1)
-        
+
         return "Quantity has been increased"
-    
+
     def decrease_item_quantity(self, inventory_pk, user):
-        inventory = Inventory.objects.get(pk=inventory_pk)
-        
-        shopping_bag_item = self.get(inventory=inventory, user=user)
-        
+        shopping_bag_item = self.filter(inventory__pk=inventory_pk, user=user).first()
+
+        if not shopping_bag_item:
+            return "Item not found in the bag"
+
+        shopping_bag_item.quantity -= 1
+        shopping_bag_item.save()
+
         if shopping_bag_item.quantity == 0:
-            return "Quantity has already reached zero"
-    
-        self.filter(inventory=inventory, user=user).update(quantity=F("quantity") - 1)
-        
-        return "Quantity has been increased"
-        
-        
+            shopping_bag_item.delete()
+            return "Bag item has been deleted"
+
+        return "Quantity has been decreased"
+
     def calculate_total_price(self, user):
         total_price = (
             self.objects.filter(user=user)
@@ -57,3 +59,12 @@ class ShoppingBagManager(models.Manager):
         )
 
         return total_price
+
+    def get_all_shopping_bag_items_per_user(self, user):
+        bag_items = (
+            self.filter(user=user)
+            .select_related("inventory", "inventory__product")
+            .values("inventory__product__first_image_url", "inventory__size")
+        )
+
+        return bag_items

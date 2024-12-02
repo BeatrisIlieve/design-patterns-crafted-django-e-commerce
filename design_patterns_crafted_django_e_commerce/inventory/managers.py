@@ -22,6 +22,13 @@ from django.db.models.functions import (
     Cast,
 )
 
+from design_patterns_crafted_django_e_commerce.utils.queries.get_full_category_title import (
+    get_full_category_title,
+)
+from design_patterns_crafted_django_e_commerce.utils.queries.get_full_color_title import (
+    get_full_color_title,
+)
+
 
 class InventoryManager(models.Manager):
 
@@ -38,21 +45,8 @@ class InventoryManager(models.Manager):
                 "product__color_id",
                 "product__first_image_url",
                 "product__second_image_url",
-                full_category_title=Case(
-                    When(product__category__title="E", then=Value("Earrings")),
-                    When(product__category__title="B", then=Value("Bracelets")),
-                    When(product__category__title="N", then=Value("Necklaces")),
-                    When(product__category__title="R", then=Value("Rings")),
-                    default=Value("Unknown Category"),
-                    output_field=CharField(),
-                ),
-                full_color_title=Case(
-                    When(product__color__title="P", then=Value("Pink")),
-                    When(product__color__title="B", then=Value("Blue")),
-                    When(product__color__title="W", then=Value("White")),
-                    default=Value("Unknown Color"),
-                    output_field=CharField(),
-                ),
+                full_category_title=get_full_category_title(),
+                full_color_title=get_full_color_title(),
             )
             .annotate(
                 min_price=Min("price"),
@@ -83,21 +77,8 @@ class InventoryManager(models.Manager):
                 "product__first_image_url",
                 "product__second_image_url",
                 "product__description",
-                full_category_title=Case(
-                    When(product__category__title="E", then=Value("Earrings")),
-                    When(product__category__title="B", then=Value("Bracelets")),
-                    When(product__category__title="N", then=Value("Necklaces")),
-                    When(product__category__title="R", then=Value("Rings")),
-                    default=Value("Unknown Category"),
-                    output_field=CharField(),
-                ),
-                full_color_title=Case(
-                    When(product__color__title="P", then=Value("Pink")),
-                    When(product__color__title="B", then=Value("Blue")),
-                    When(product__color__title="W", then=Value("White")),
-                    default=Value("Unknown Color"),
-                    output_field=CharField(),
-                ),
+                full_category_title=get_full_category_title(),
+                full_color_title=get_full_color_title(),
             )
             .annotate(
                 inventory_details=JSONBAgg(
