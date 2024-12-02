@@ -30,3 +30,7 @@ class BaseShoppingEntity(models.Model):
         on_delete=models.CASCADE,
         related_name="user_shopping_bag",
     )
+    
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
