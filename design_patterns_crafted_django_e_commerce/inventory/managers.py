@@ -58,11 +58,7 @@ class InventoryManager(models.Manager):
                 min_price=Min("price"),
                 max_price=Max("price"),
                 total_quantity=Sum("quantity"),
-                is_sold_out=Case(
-                    When(total_quantity=0, then=Value("Sold Out")),
-                    default=Value("In Stock"),
-                    output_field=BooleanField(),
-                ),
+                is_sold_out=get_stock_status_for_all_sizes(),
             )
             .order_by("product_id")
         )
@@ -97,12 +93,7 @@ class InventoryManager(models.Manager):
                     ),
                 ),
                 total_quantity=Sum("quantity"),
-                is_sold_out=get_stock_status_for_all_sizes()
-                # is_sold_out=Case(
-                #     When(total_quantity=0, then=Value("Sold Out")),
-                #     default=Value("In Stock"),
-                #     output_field=BooleanField(),
-                # ),
+                is_sold_out=get_stock_status_for_all_sizes(),
             )
             .order_by("product_id")
         )
