@@ -13,7 +13,7 @@ from design_patterns_crafted_django_e_commerce.product.models import (
 class WishlistManager(models.Manager):
     def get_all_liked_products(self, user) -> str:
         wishlist_items = self.filter(user=user).select_related(
-            "product", "product__category_set", "product__color_set"
+            "product", "product__category", "product__color"
         )
         result = []
 
@@ -29,7 +29,7 @@ class WishlistManager(models.Manager):
 
             result.append(product_details)
 
-        return "\n".join(result)
+        return result
 
     def check_if_a_product_is_liked_by_user(self, product, user):
         return self.filter(user=user, product=product).exists()
