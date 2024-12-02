@@ -97,7 +97,7 @@ class TestEntireFunctionality:
                 f"Color: {inventories[0]['full_color_title']}",
                 f"Price range: {inventories[0]['min_price']} - {inventories[0]['max_price']}",
                 f"Availability: {inventories[0]['is_sold_out']}",
-                f"Is liked by user: {is_liked_by_user}"
+                f"Is liked by user: {is_liked_by_user}",
             ]
         )
 
@@ -108,7 +108,7 @@ class TestEntireFunctionality:
         inventories = Inventory.objects.get_product_into_product_page(
             self.__category_pk_1, self.__color_pk_1
         )
-        
+
         is_liked_by_user = Wishlist.objects.check_if_a_product_is_liked_by_user(
             inventories[0]["product_id"], self.__user
         )
@@ -142,30 +142,35 @@ class TestEntireFunctionality:
         inventories = Inventory.objects.get_product_into_products_list(
             self.__category_pk_1, self.__color_pk_1
         )
-                
+
         is_liked_by_user = Wishlist.objects.check_if_a_product_is_liked_by_user(
             inventories[0]["product_id"], self.__user
         )
-        
-        if is_liked_by_user:
-            Wishlist.objects.remove_product_from_wishlist(inventories[0]["product_id"], self.__user)
-            return "Product has been removed from wishlist"
-        
-        Wishlist.objects.add_product_to_wishlist(inventories[0]["product_id"], self.__user)
-        
-        return "Product added to wishlist"
 
+        if is_liked_by_user:
+            return Wishlist.objects.remove_product_from_wishlist(
+                inventories[0]["product_id"], self.__user
+            )
+
+        return Wishlist.objects.add_product_to_wishlist(
+            inventories[0]["product_id"], self.__user
+        )
 
     def __test_get_products_in_user_wishlist(self):
         return Wishlist.objects.get_all_liked_products(self.__user)
 
-    def __test_execute_clicking_on_the_like_button_expect_to_remove(self):
-        return Wishlist.objects.execute_like_button_click(self.__product, self.__user)
-
     def __test_execute_clicking_on_the_add_to_bag_button(self):
-        return Inventory.get_product_into_products_list(
+        inventories = Inventory.objects.get_product_into_product_page(
             self.__category_pk_1, self.__color_pk_1
         )
+
+        inventory_pk = inventories[0][
+            "inventory_details"
+        ][0]["inventory_id"]
+        
+        return ShoppingBag.objects.add_item(inventory_pk, self.__user)
+        
+        
 
     def execute(self):
 
@@ -175,10 +180,7 @@ class TestEntireFunctionality:
         # result = self.__test_get_product_into_product_page()
         # result = self.__test_execute_clicking_on_the_like_button()
         # result = self.__test_get_products_in_user_wishlist()
-        # result.append(
-        #     self.__test_execute_clicking_on_the_like_button_expect_to_remove()
-        # )
-        # result.append(self.__test_get_product_into_product_page())
+        result = self.__test_execute_clicking_on_the_add_to_bag_button()
         return result
         # return "\n\n".join(result)
 

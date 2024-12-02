@@ -18,7 +18,7 @@ class Wishlist(models.Model):
             "user",
             "product",
         )
-        
+
     objects = WishlistManager()
 
     product = models.ForeignKey(
