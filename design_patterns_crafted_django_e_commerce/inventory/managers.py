@@ -28,6 +28,12 @@ from design_patterns_crafted_django_e_commerce.utils.queries.get_full_category_t
 from design_patterns_crafted_django_e_commerce.utils.queries.get_full_color_title import (
     get_full_color_title,
 )
+from design_patterns_crafted_django_e_commerce.utils.queries.get_stock_status_per_size import (
+    get_stock_status_per_size,
+)
+from design_patterns_crafted_django_e_commerce.utils.queries.get_stock_status_for_all_sizes import (
+    get_stock_status_for_all_sizes,
+)
 
 
 class InventoryManager(models.Manager):
@@ -57,7 +63,8 @@ class InventoryManager(models.Manager):
                     default=Value("In Stock"),
                     output_field=BooleanField(),
                 ),
-            ).order_by("pk")
+            )
+            .order_by("product_id")
         )
 
         return result
@@ -86,20 +93,18 @@ class InventoryManager(models.Manager):
                         inventory_id="id",
                         size="size",
                         price=Cast("price", output_field=CharField()),
-                        stock_status=Case(
-                            When(quantity=0, then=Value("Sold Out")),
-                            default=Value("In Stock"),
-                            output_field=CharField(),
-                        ),
+                        stock_status=get_stock_status_per_size(),
                     ),
                 ),
                 total_quantity=Sum("quantity"),
-                is_sold_out=Case(
-                    When(total_quantity=0, then=Value("Sold Out")),
-                    default=Value("In Stock"),
-                    output_field=BooleanField(),
-                ),
-            ).order_by("pk")
+                is_sold_out=get_stock_status_for_all_sizes()
+                # is_sold_out=Case(
+                #     When(total_quantity=0, then=Value("Sold Out")),
+                #     default=Value("In Stock"),
+                #     output_field=BooleanField(),
+                # ),
+            )
+            .order_by("product_id")
         )
 
         return result

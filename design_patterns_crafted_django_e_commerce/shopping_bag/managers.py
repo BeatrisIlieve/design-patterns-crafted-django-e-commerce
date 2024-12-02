@@ -14,12 +14,7 @@ from design_patterns_crafted_django_e_commerce.inventory.models import (
     Inventory,
 )
 
-from design_patterns_crafted_django_e_commerce.utils.queries.get_full_category_title import (
-    get_full_category_title,
-)
-from design_patterns_crafted_django_e_commerce.utils.queries.get_full_color_title import (
-    get_full_color_title,
-)
+
 from design_patterns_crafted_django_e_commerce.utils.queries.get_stock_status_per_size import (
     get_stock_status_per_size,
 )
@@ -31,7 +26,7 @@ class ShoppingBagManager(models.Manager):
 
         if inventory.quantity == 0:
             return "Not enough inventory quantity"
-        
+
         inventory.quantity -= 1
         inventory.save()
 
@@ -51,7 +46,7 @@ class ShoppingBagManager(models.Manager):
 
         if inventory.quantity == 0:
             return "Not enough inventory quantity"
-        
+
         inventory.quantity -= 1
         inventory.save()
 
@@ -64,7 +59,7 @@ class ShoppingBagManager(models.Manager):
 
         if not shopping_bag_item:
             return "Item not found in the bag"
-        
+
         inventory = Inventory.objects.get(pk=inventory_pk)
         inventory.quantity += 1
         inventory.save()
@@ -118,9 +113,7 @@ class ShoppingBagManager(models.Manager):
                     output_field=CharField(),
                 ),
             )
-            .annotate(
-                stock_status=get_stock_status_per_size()
-            )
+            .annotate(stock_status=get_stock_status_per_size())
         )
 
         return bag_items
