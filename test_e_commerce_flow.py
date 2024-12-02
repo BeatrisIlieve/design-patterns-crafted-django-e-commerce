@@ -41,6 +41,9 @@ from design_patterns_crafted_django_e_commerce.shopping_bag.models import (
 from design_patterns_crafted_django_e_commerce.inventory.models import (
     Inventory,
 )
+from design_patterns_crafted_django_e_commerce.wishlist.models import (
+    Wishlist,
+)
 
 
 class TestEntireFunctionality:
@@ -80,6 +83,10 @@ class TestEntireFunctionality:
             self.__category_pk_1, self.__color_pk_1
         )
 
+        is_liked_by_user = Wishlist.objects.check_if_a_product_is_liked_by_user(
+            inventories[0]["product_id"], self.__user
+        )
+
         result = "\n\n".join(
             [
                 "Product details into products list page:",
@@ -89,6 +96,7 @@ class TestEntireFunctionality:
                 f"Color: {inventories[0]['full_color_title']}",
                 f"Price range: {inventories[0]['min_price']} - {inventories[0]['max_price']}",
                 f"Availability: {inventories[0]['is_sold_out']}",
+                f"Is liked by user: {is_liked_by_user}"
             ]
         )
 
@@ -98,6 +106,10 @@ class TestEntireFunctionality:
 
         inventories = Inventory.objects.get_product_into_product_page(
             self.__category_pk_1, self.__color_pk_1
+        )
+        
+        is_liked_by_user = Wishlist.objects.check_if_a_product_is_liked_by_user(
+            inventories[0]["product_id"], self.__user
         )
 
         inventory_details = inventories[0]["inventory_details"]
@@ -118,6 +130,7 @@ class TestEntireFunctionality:
                 f"Category: {inventories[0]['full_category_title']}",
                 f"Color: {inventories[0]['full_color_title']}",
                 f"Availability: {inventories[0]['is_sold_out']}",
+                f"Is liked by user: {is_liked_by_user}",
                 "\n".join(sizes_by_inventory_id_and_price),
             ]
         )
@@ -143,7 +156,7 @@ class TestEntireFunctionality:
         # result.append(self.__test_register_user())
         # result.append(self.__test_register_user_with_duplicate_email())
         # result = self.__test_get_product_into_products_list_page()
-        # result = self.__test_get_product_into_product_page()
+        result = self.__test_get_product_into_product_page()
         # result.append(self.__test_execute_clicking_on_the_like_button_expect_to_add())
         # result.append(self.__test_get_products_in_user_wishlist())
         # result.append(
