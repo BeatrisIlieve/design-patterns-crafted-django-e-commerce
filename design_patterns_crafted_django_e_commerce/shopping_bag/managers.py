@@ -25,7 +25,18 @@ class ShoppingBagManager(models.Manager):
             return "Shopping bag item quantity has been increased"
         
         return "Item has been added to shopping bag"
-
+    
+    def increase_item_quantity(self, inventory_pk, user):
+        inventory = Inventory.objects.get(pk=inventory_pk)
+        
+        if inventory.quantity == 0:
+            return "Not enough inventory quantity"
+    
+        self.filter(inventory=inventory, user=user).update(quantity=F("quantity") + 1)
+        
+        return "Quantity has been increased"
+        
+        
     def calculate_total_price(self, user):
         total_price = (
             self.objects.filter(user=user)

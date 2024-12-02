@@ -169,6 +169,17 @@ class TestEntireFunctionality:
         ][0]["inventory_id"]
         
         return ShoppingBag.objects.add_item(inventory_pk, self.__user)
+    
+    def __test_increase_shopping_bag_quantity(self):
+        inventories = Inventory.objects.get_product_into_product_page(
+            self.__category_pk_1, self.__color_pk_1
+        )
+        
+        inventory_pk = inventories[0][
+            "inventory_details"
+        ][0]["inventory_id"]
+        
+        return ShoppingBag.objects.increase_item_quantity(inventory_pk, self.__user)
         
         
 
@@ -180,7 +191,8 @@ class TestEntireFunctionality:
         # result = self.__test_get_product_into_product_page()
         # result = self.__test_execute_clicking_on_the_like_button()
         # result = self.__test_get_products_in_user_wishlist()
-        result = self.__test_execute_clicking_on_the_add_to_bag_button()
+        # result = self.__test_execute_clicking_on_the_add_to_bag_button()
+        result = self.__test_increase_shopping_bag_quantity()
         return result
         # return "\n\n".join(result)
 
