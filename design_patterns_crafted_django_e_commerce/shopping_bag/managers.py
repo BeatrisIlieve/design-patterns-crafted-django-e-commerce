@@ -120,12 +120,10 @@ class ShoppingBagManager(models.Manager):
                 price=F("inventory__price"),
                 size=F("inventory__size"),
                 annotated_quantity=F("quantity"),
-                # Set output_field explicitly to DecimalField for total calculation
                 total_per_item=Coalesce(
                     F("inventory__price"), Value(0), output_field=DecimalField()
                 )
                 * Coalesce(F("quantity"), Value(0), output_field=DecimalField()),
-                # Window function for total sum over all rows
                 total_bag_sum=Window(
                     expression=Sum(
                         Coalesce(
@@ -133,23 +131,14 @@ class ShoppingBagManager(models.Manager):
                         )
                         * Coalesce(F("quantity"), Value(0), output_field=DecimalField())
                     ),
-                    partition_by=[],  # To sum over all rows
-                    # order_by=F(
-                    #     "inventory__product__first_image_url"
-                    # ).asc(),
+                    partition_by=[],
                 ),
                 row_number=Window(
                     expression=RowNumber(),
                     partition_by=[],
-                    # order_by=F(
-                    #     "inventory__product__first_image_url"
-                    # ).asc(),
                 ),
             )
-            .annotate(
-                total_bag_sum=F("total_bag_sum")
-                # output_field=DecimalField(),
-            )
+            .annotate(total_bag_sum=F("total_bag_sum"))
             .values(
                 "first_image",
                 "full_color_title",
