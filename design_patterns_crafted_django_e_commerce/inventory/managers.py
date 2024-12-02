@@ -57,7 +57,7 @@ class InventoryManager(models.Manager):
                     default=Value("In Stock"),
                     output_field=BooleanField(),
                 ),
-            )
+            ).order_by("pk")
         )
 
         return result
@@ -99,7 +99,7 @@ class InventoryManager(models.Manager):
                     default=Value("In Stock"),
                     output_field=BooleanField(),
                 ),
-            )
+            ).order_by("pk")
         )
 
         return result

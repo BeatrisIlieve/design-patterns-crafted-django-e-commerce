@@ -29,6 +29,12 @@ class ShoppingBagManager(models.Manager):
     def add_item(self, inventory_pk, user):
         inventory = Inventory.objects.get(pk=inventory_pk)
 
+        if inventory.quantity == 0:
+            return "Not enough inventory quantity"
+        
+        inventory.quantity -= 1
+        inventory.save()
+
         shopping_bag_item, created = self.get_or_create(user=user, inventory=inventory)
 
         if not created:
@@ -45,6 +51,9 @@ class ShoppingBagManager(models.Manager):
 
         if inventory.quantity == 0:
             return "Not enough inventory quantity"
+        
+        inventory.quantity -= 1
+        inventory.save()
 
         self.filter(inventory=inventory, user=user).update(quantity=F("quantity") + 1)
 
@@ -55,6 +64,10 @@ class ShoppingBagManager(models.Manager):
 
         if not shopping_bag_item:
             return "Item not found in the bag"
+        
+        inventory = Inventory.objects.get(pk=inventory_pk)
+        inventory.quantity += 1
+        inventory.save()
 
         shopping_bag_item.quantity -= 1
         shopping_bag_item.save()
@@ -81,6 +94,8 @@ class ShoppingBagManager(models.Manager):
             .values(
                 "inventory__product__first_image_url",
                 "inventory__size",
+                "inventory__price",
+                "quantity",
                 full_category_title=Case(
                     When(
                         inventory__product__category__title="E", then=Value("Earrings")
