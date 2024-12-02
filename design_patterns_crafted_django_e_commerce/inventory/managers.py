@@ -106,8 +106,8 @@ class InventoryManager(models.Manager):
                 max_price=Max("price"),
                 total_quantity=Sum("quantity"),
                 is_sold_out=Case(
-                    When(total_quantity=0, then=Value(True)),
-                    default=Value(False),
+                    When(total_quantity=0, then=Value("Sold Out")),
+                    default=Value("In Stock"),
                     output_field=BooleanField(),
                 ),
             )
