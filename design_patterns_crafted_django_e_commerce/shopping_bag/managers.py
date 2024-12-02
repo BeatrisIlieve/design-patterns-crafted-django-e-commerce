@@ -100,13 +100,13 @@ class ShoppingBagManager(models.Manager):
                     output_field=CharField(),
                 ),
             )
-            # .annotate(
-            #         stock_status=Case(
-            #         When(inventory__quantity=0, then=Value("Cannot Increase")),
-            #         default=Value("Can Increase"),
-            #         output_field=CharField(),
-            #     ),
-            # )
+            .annotate(
+                    stock_status=Case(
+                    When(inventory__quantity=0, then=Value("Cannot Increase")),
+                    default=Value("Can Increase"),
+                    output_field=CharField(),
+                ),
+            )
         )
 
         return bag_items
