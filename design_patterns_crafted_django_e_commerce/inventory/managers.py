@@ -71,11 +71,13 @@ from django.db.models import (
     ExpressionWrapper,
 )
 from django.db.models.functions import Concat, ConcatPair
-from django.contrib.postgres.aggregates import StringAgg
+from django.contrib.postgres.aggregates import StringAgg, JSONBAgg
 from django.db.models.expressions import RawSQL
 
 from design_patterns_crafted_django_e_commerce.product.models import Category, Product
 from django.db import connection
+
+from django.db.models.functions import JSONObject
 
 
 class InventoryManager(models.Manager):
@@ -111,24 +113,36 @@ class InventoryManager(models.Manager):
                 ),
             )
             .annotate(
-                inventory_details=StringAgg(
-                    Concat(
-                        Value("inventory_id: "),
-                        "id",
-                        Value(";size: "),
-                        "size",
-                        Value(";price: "),
-                        "price",
-                        Value(";stock_status: "),
-                        Case(
-                            When(quantity=0, then=Value("Sold Out")),
-                            default=Value("In Stock"),
-                            output_field=CharField(),
-                        ),
-                        output_field=CharField(),
-                    ),
-                    delimiter=", ",
+                inventory_details=JSONBAgg(
+                    JSONObject(
+                inventory_id="id",
+                size="size",
+                price="price",
+                stock_status=Case(
+                    When(quantity=0, then=Value("Sold Out")),
+                    default=Value("In Stock"),
+                    output_field=CharField(),
+                ),
+            ),
                 )
+                # inventory_details=StringAgg(
+                #     Concat(
+                #         Value("inventory_id:"),
+                #         "id",
+                #         Value(";size:"),
+                #         "size",
+                #         Value(";price:"),
+                #         "price",
+                #         Value(";stock_status:"),
+                #         Case(
+                #             When(quantity=0, then=Value("Sold Out")),
+                #             default=Value("In Stock"),
+                #             output_field=CharField(),
+                #         ),
+                #         output_field=CharField(),
+                #     ),
+                #     delimiter="|",
+                # )
             )
         )
 

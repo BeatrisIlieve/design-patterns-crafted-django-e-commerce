@@ -74,28 +74,28 @@ class TestEntireFunctionality:
         except ValidationError as e:
             return e.messages[0]
 
-    def __test_get_product_into_products_list(self) -> str:
+    def __test_get_product_into_products_list_page(self) -> str:
         
         inventories = Inventory.objects.get_product_into_products_list(
             self.__category_pk_1, self.__color_pk_1
         )
-        # first_inventory = inventories.first()
-
-        # product_details = {
-        #     "first_image_url": first_inventory.product.first_image_url,
-        #     "second_image_url": first_inventory.product.second_image_url,
-        #     "description": first_inventory.product.description,
-        #     "category_title": first_inventory.product.category.get_title_display(),
-        #     "color_title": first_inventory.product.color.get_title_display(),
-        # }
-
-        # sizes = {}
         
-        # for inventory in inventories:
-        #     sizes[inventory.pk] = {"measurement": inventory.size, "price": inventory.price}
+        inventory_details = inventories[0]["inventory_details"]
+        print(inventory_details[0]["size"])
+        
+        
+        # result = "\n".join([
+        #     "Product details into products list page:",
+        #     f"First image: {inventories[0]['product__first_image_url']}",
+        #     f"Second image: {inventories[0]['product__second_image_url']}",
+        #     f"Description: {inventories[0]['product__description']}",
+        #     f"Category: {inventories[0]['full_category_title']}",
+        #     f"Color: {inventories[0]['full_color_title']}",
+        # ])
+        
 
-        # return [product_details, sizes]
-        return inventories
+
+        # return inventories
 
     def __test_execute_clicking_on_the_like_button_expect_to_add(self):
         return Wishlist.objects.execute_like_button_click(self.__product, self.__user)
@@ -112,7 +112,7 @@ class TestEntireFunctionality:
         )
 
     def execute(self):
-        result = self.__test_get_product_into_products_list()
+        result = self.__test_get_product_into_products_list_page()
 
         # result.append(self.__test_register_user())
         # result.append(self.__test_register_user_with_duplicate_email())
@@ -121,7 +121,7 @@ class TestEntireFunctionality:
         # result.append(
         #     self.__test_execute_clicking_on_the_like_button_expect_to_remove()
         # )
-        # result.append(self.__test_get_product_into_products_list())
+        # result.append(self.__test_get_product_into_products_list_page())
         return result   
         # return "\n\n".join(result)
 
