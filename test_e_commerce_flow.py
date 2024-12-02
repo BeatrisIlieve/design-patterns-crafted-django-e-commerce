@@ -199,8 +199,8 @@ class TestEntireFunctionality:
 
         # result.append(self.__test_register_user())
         # result.append(self.__test_register_user_with_duplicate_email())
-        result = self.__test_get_product_into_products_list_page()
-        # result = self.__test_get_product_into_product_page()
+        # result = self.__test_get_product_into_products_list_page()
+        result = self.__test_get_product_into_product_page()
         # result = self.__test_execute_clicking_on_the_like_button()
         # result = self.__test_get_products_in_user_wishlist()
         # result = self.__test_execute_clicking_on_the_add_to_bag_button()
