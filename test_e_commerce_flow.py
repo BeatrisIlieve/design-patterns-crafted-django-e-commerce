@@ -117,6 +117,7 @@ class TestEntireFunctionality:
                 f"Description: {inventories[0]['product__description']}",
                 f"Category: {inventories[0]['full_category_title']}",
                 f"Color: {inventories[0]['full_color_title']}",
+                f"Availability: {inventories[0]['is_sold_out']}",
                 "\n".join(sizes_by_inventory_id_and_price),
             ]
         )
@@ -141,9 +142,8 @@ class TestEntireFunctionality:
 
         # result.append(self.__test_register_user())
         # result.append(self.__test_register_user_with_duplicate_email())
+        # result = self.__test_get_product_into_products_list_page()
         # result = self.__test_get_product_into_product_page()
-
-        result = self.__test_get_product_into_products_list_page()
         # result.append(self.__test_execute_clicking_on_the_like_button_expect_to_add())
         # result.append(self.__test_get_products_in_user_wishlist())
         # result.append(
