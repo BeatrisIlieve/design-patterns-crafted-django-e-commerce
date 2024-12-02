@@ -136,22 +136,19 @@ class ShoppingBagManager(models.Manager):
                     partition_by=[],  # To sum over all rows
                     # order_by=F(
                     #     "inventory__product__first_image_url"
-                    # ).asc(), 
+                    # ).asc(),
                 ),
                 row_number=Window(
                     expression=RowNumber(),
                     partition_by=[],
                     # order_by=F(
                     #     "inventory__product__first_image_url"
-                    # ).asc(),  
+                    # ).asc(),
                 ),
             )
             .annotate(
-                total_bag_sum=Case(
-                    When(row_number=1, then=F("total_bag_sum")),
-                    default=Value(None),
-                    output_field=DecimalField(),
-                ),
+                total_bag_sum=F("total_bag_sum")
+                # output_field=DecimalField(),
             )
             .values(
                 "first_image",
@@ -162,6 +159,6 @@ class ShoppingBagManager(models.Manager):
                 "total_per_item",
                 "total_bag_sum",
             )
-        )
+        ).order_by("-created_at")
 
         return queryset

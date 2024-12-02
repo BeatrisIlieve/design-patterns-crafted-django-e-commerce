@@ -14,6 +14,7 @@ class BaseShoppingEntity(models.Model):
     class Meta:
         abstract = True
         unique_together = ("user", "inventory")
+        ordering = ("-created_at",)
 
     quantity = models.PositiveIntegerField(
         default=1,
