@@ -193,20 +193,35 @@ class TestEntireFunctionality:
         return ShoppingBag.objects.decrease_item_quantity(inventory_pk, self.__user)
     
     def __test_get_all_shopping_bag_items_per_user(self):
-        return ShoppingBag.objects.get_all_shopping_bag_items_per_user(self.__user)
+        bag_items = ShoppingBag.objects.get_all_shopping_bag_items_per_user(self.__user)
+        
+        result = []
+        
+        total_bag_price = bag_items[0]["total_bag_sum"]
+        
+        result.append(f"Total bag price: {total_bag_price}")
+        
+        for bag_item in bag_items:
+            result.append(f"First image: {bag_item['first_image']}")
+            result.append(f"Color: {bag_item['full_color_title']}")
+            result.append(f"Category: {bag_item['full_category_title']}")
+            result.append(f"Quantity: {bag_item['quantity']}")
+            result.append(f"Total price per item: {bag_item['total_per_item']}")
+
+        return "\n\n".join(result)
 
     def execute(self):
 
         # result.append(self.__test_register_user())
         # result.append(self.__test_register_user_with_duplicate_email())
         # result = self.__test_get_product_into_products_list_page()
-        result = self.__test_get_product_into_product_page()
+        # result = self.__test_get_product_into_product_page()
         # result = self.__test_execute_clicking_on_the_like_button()
         # result = self.__test_get_products_in_user_wishlist()
         # result = self.__test_execute_clicking_on_the_add_to_bag_button()
         # result = self.__test_increase_shopping_bag_quantity()
         # result = self.__test_decrease_shopping_bag_quantity()
-        # result = self.__test_get_all_shopping_bag_items_per_user()
+        result = self.__test_get_all_shopping_bag_items_per_user()
         return result
         # return "\n\n".join(result)
 

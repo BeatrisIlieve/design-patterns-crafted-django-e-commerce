@@ -8,12 +8,15 @@ from django.db.models import (
     Value,
     When,
     CharField,
+    Subquery,
+    DecimalField,
 )
+from django.db.models import Sum, F, Case, When, Value, Window
+from django.db.models.functions import Coalesce, RowNumber
 
 from design_patterns_crafted_django_e_commerce.inventory.models import (
     Inventory,
 )
-
 
 from design_patterns_crafted_django_e_commerce.utils.queries.get_stock_status_per_size import (
     get_stock_status_per_size,
@@ -83,14 +86,16 @@ class ShoppingBagManager(models.Manager):
         return total_price
 
     def get_all_shopping_bag_items_per_user(self, user):
-        bag_items = (
+        queryset = (
             self.filter(user=user)
-            .select_related("inventory", "inventory__product")
-            .values(
-                "inventory__product__first_image_url",
-                "inventory__size",
-                "inventory__price",
-                "quantity",
+            .select_related(
+                "inventory",
+                "inventory__product",
+                "inventory__product__category",
+                "inventory__product__color",
+            )
+            .annotate(
+                first_image=F("inventory__product__first_image_url"),
                 full_category_title=Case(
                     When(
                         inventory__product__category__title="E", then=Value("Earrings")
@@ -112,8 +117,92 @@ class ShoppingBagManager(models.Manager):
                     default=Value("Unknown Color"),
                     output_field=CharField(),
                 ),
+                price=F("inventory__price"),
+                size=F("inventory__size"),
+                annotated_quantity=F("quantity"),
+                # Set output_field explicitly to DecimalField for total calculation
+                total_per_item=Coalesce(
+                    F("inventory__price"), Value(0), output_field=DecimalField()
+                )
+                * Coalesce(F("quantity"), Value(0), output_field=DecimalField()),
+                # Window function for total sum over all rows
+                total_bag_sum=Window(
+                    expression=Sum(
+                        Coalesce(
+                            F("inventory__price"), Value(0), output_field=DecimalField()
+                        )
+                        * Coalesce(F("quantity"), Value(0), output_field=DecimalField())
+                    ),
+                    partition_by=[],  # To sum over all rows
+                    order_by=F(
+                        "inventory__product__first_image_url"
+                    ).asc(),  # Adjust as needed
+                ),
+                row_number=Window(
+                    expression=RowNumber(),
+                    partition_by=[],
+                    order_by=F(
+                        "inventory__product__first_image_url"
+                    ).asc(),  # Adjust as needed
+                ),
             )
-            .annotate(stock_status=get_stock_status_per_size())
+            .annotate(
+                total_bag_sum=Case(
+                    When(
+                        row_number=1, then=F("total_bag_sum")
+                    ),  # Only show total_bag_sum in the first row
+                    default=Value(None),
+                    output_field=DecimalField(),
+                ),
+            )
+            .values(
+                "first_image",
+                "full_color_title",
+                "full_category_title",
+                "size",
+                "quantity",
+                "total_per_item",
+                "total_bag_sum",
+            )
         )
 
-        return bag_items
+        return queryset
+
+        # bag_items = (
+        #     self.filter(user=user)
+        #     .select_related("inventory", "inventory__product")
+        #     .values(
+        #         "inventory__product__first_image_url",
+        #         "inventory__size",
+        #         "inventory__price",
+        #         "quantity",
+        # full_category_title=Case(
+        #     When(
+        #         inventory__product__category__title="E", then=Value("Earrings")
+        #     ),
+        #     When(
+        #         inventory__product__category__title="B", then=Value("Bracelets")
+        #     ),
+        #     When(
+        #         inventory__product__category__title="N", then=Value("Necklaces")
+        #     ),
+        #     When(inventory__product__category__title="R", then=Value("Rings")),
+        #     default=Value("Unknown Category"),
+        #     output_field=CharField(),
+        # ),
+        # full_color_title=Case(
+        #     When(inventory__product__color__title="P", then=Value("Pink")),
+        #     When(inventory__product__color__title="B", then=Value("Blue")),
+        #     When(inventory__product__color__title="W", then=Value("White")),
+        #     default=Value("Unknown Color"),
+        #     output_field=CharField(),
+        # ),
+        #     )
+        #     .annotate(
+        #         stock_status=get_stock_status_per_size(),
+        #         item_total=F("quantity") * F("inventory__price"),
+        #     )
+        #     .aggregate(total_price=Sum("item_total"))["total_price"]
+        # )
+
+        # return bag_items
