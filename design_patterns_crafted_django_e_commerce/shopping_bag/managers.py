@@ -20,6 +20,9 @@ from design_patterns_crafted_django_e_commerce.utils.queries.get_full_category_t
 from design_patterns_crafted_django_e_commerce.utils.queries.get_full_color_title import (
     get_full_color_title,
 )
+from design_patterns_crafted_django_e_commerce.utils.queries.get_stock_status_per_size import (
+    get_stock_status_per_size,
+)
 
 
 class ShoppingBagManager(models.Manager):
@@ -101,11 +104,7 @@ class ShoppingBagManager(models.Manager):
                 ),
             )
             .annotate(
-                    stock_status=Case(
-                    When(inventory__quantity=0, then=Value("Cannot Increase")),
-                    default=Value("Can Increase"),
-                    output_field=CharField(),
-                ),
+                stock_status=get_stock_status_per_size()
             )
         )
 
