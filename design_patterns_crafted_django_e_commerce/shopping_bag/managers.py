@@ -10,6 +10,13 @@ from design_patterns_crafted_django_e_commerce.inventory.models import (
     Inventory,
 )
 
+from design_patterns_crafted_django_e_commerce.utils.queries.get_full_category_title import (
+    get_full_category_title,
+)
+from design_patterns_crafted_django_e_commerce.utils.queries.get_full_color_title import (
+    get_full_color_title,
+)
+
 
 class ShoppingBagManager(models.Manager):
     def add_item(self, inventory_pk, user):
@@ -64,7 +71,12 @@ class ShoppingBagManager(models.Manager):
         bag_items = (
             self.filter(user=user)
             .select_related("inventory", "inventory__product")
-            .values("inventory__product__first_image_url", "inventory__size")
+            .values(
+                "inventory__product__first_image_url",
+                "inventory__size",
+                full_category_title=get_full_category_title(),
+                full_color_title=get_full_color_title(),
+            )
         )
 
         return bag_items

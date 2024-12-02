@@ -1,4 +1,9 @@
-from django.db.models import Case, When, Value, CharField
+from django.db.models import (
+    Case,
+    When,
+    Value,
+    CharField,
+)
 
 
 def get_full_category_title():
