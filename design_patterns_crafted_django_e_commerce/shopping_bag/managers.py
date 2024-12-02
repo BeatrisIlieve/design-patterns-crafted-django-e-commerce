@@ -4,6 +4,10 @@ from django.db import (
 from django.db.models import (
     Sum,
     F,
+    Case,
+    Value,
+    When,
+    CharField,
 )
 
 from design_patterns_crafted_django_e_commerce.inventory.models import (
@@ -74,9 +78,35 @@ class ShoppingBagManager(models.Manager):
             .values(
                 "inventory__product__first_image_url",
                 "inventory__size",
-                full_category_title=get_full_category_title(),
-                full_color_title=get_full_color_title(),
+                full_category_title=Case(
+                    When(
+                        inventory__product__category__title="E", then=Value("Earrings")
+                    ),
+                    When(
+                        inventory__product__category__title="B", then=Value("Bracelets")
+                    ),
+                    When(
+                        inventory__product__category__title="N", then=Value("Necklaces")
+                    ),
+                    When(inventory__product__category__title="R", then=Value("Rings")),
+                    default=Value("Unknown Category"),
+                    output_field=CharField(),
+                ),
+                full_color_title=Case(
+                    When(inventory__product__color__title="P", then=Value("Pink")),
+                    When(inventory__product__color__title="B", then=Value("Blue")),
+                    When(inventory__product__color__title="W", then=Value("White")),
+                    default=Value("Unknown Color"),
+                    output_field=CharField(),
+                ),
             )
+            # .annotate(
+            #         stock_status=Case(
+            #         When(inventory__quantity=0, then=Value("Cannot Increase")),
+            #         default=Value("Can Increase"),
+            #         output_field=CharField(),
+            #     ),
+            # )
         )
 
         return bag_items
