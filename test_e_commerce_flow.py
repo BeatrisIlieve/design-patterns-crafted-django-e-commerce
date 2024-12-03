@@ -225,7 +225,17 @@ class TestEntireFunctionality:
         region = Region.objects.get(name="California")
         city = City.objects.get(name="Los Angeles")
 
-        self.__user_shipping_details.update()
+        self.__user_shipping_details.update(
+            first_name="Beatris",  
+            last_name="Ilieva",  
+            phone_number="1234567890", 
+            country=country,
+            city=city,
+            region=region,
+            street_address="Some Street 1-",
+            apartment="Apt. 1",
+            postal_code="1000",
+        )
 
     def execute(self):
         pass
