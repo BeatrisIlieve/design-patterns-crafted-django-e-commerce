@@ -18,6 +18,12 @@ os.environ.setdefault(
 )
 django.setup()
 
+from cities_light.models import (
+    Country,
+    City,
+    Region,
+)
+
 from django.core.exceptions import (
     ValidationError,
 )
@@ -215,7 +221,11 @@ class TestEntireFunctionality:
         return "\n\n".join(result)
 
     def __test_clicking_on_continue_checkout_button(self):
-        pass
+        country = Country.objects.get(name="USA")
+        region = Region.objects.get(name="California")
+        city = City.objects.get(name="Los Angeles")
+
+        self.__user_shipping_details.update()
 
     def execute(self):
         pass
