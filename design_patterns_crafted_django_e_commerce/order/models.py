@@ -16,13 +16,12 @@ class Order(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        self.clean()
-
         is_new = self.pk is None
+
         super().save(*args, **kwargs)
 
         if is_new:
-            OrderItem.objects.create(user=self)
+            OrderItem.objects.create(order=self)
 
 
 class OrderItem(BaseShoppingEntity):
