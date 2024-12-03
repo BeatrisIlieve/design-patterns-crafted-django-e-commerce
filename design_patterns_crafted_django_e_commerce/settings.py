@@ -17,11 +17,11 @@ CUSTOM_APPS = [
     "design_patterns_crafted_django_e_commerce.inventory",
     "design_patterns_crafted_django_e_commerce.wishlist",
     "design_patterns_crafted_django_e_commerce.shopping_bag",
+    "design_patterns_crafted_django_e_commerce.delivery",
     "design_patterns_crafted_django_e_commerce.order",
 ]
 
-# COUNTRIES_COMMON_NAMES = False
-CITIES_LIGHT_USE_ZIPCODE = True 
+CITIES_LIGHT_USE_ZIPCODE = True
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     
-    'cities_light',
+    "cities_light",
 ] + CUSTOM_APPS
 
 MIDDLEWARE = [
