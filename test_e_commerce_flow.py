@@ -44,6 +44,12 @@ from design_patterns_crafted_django_e_commerce.inventory.models import (
 from design_patterns_crafted_django_e_commerce.wishlist.models import (
     Wishlist,
 )
+from design_patterns_crafted_django_e_commerce.user_payment_details.models import (
+    UserPaymentDetails,
+)
+from design_patterns_crafted_django_e_commerce.user_shipping_details.models import (
+    UserShippingDetails,
+)
 
 
 class TestEntireFunctionality:
@@ -57,6 +63,10 @@ class TestEntireFunctionality:
         ).first()
         # self.__user: UserCredentialDetails = None
         self.__user = UserCredentialDetails.objects.get(pk=1)
+        self.__user_shipping_details = UserShippingDetails.objects.get(
+            pk=self.__user.pk
+        )
+        self.__user_payment_details = UserPaymentDetails.objects.get(pk=self.__user.pk)
 
     def __test_register_user(self) -> str:
         try:
@@ -164,43 +174,37 @@ class TestEntireFunctionality:
             self.__category_pk_1, self.__color_pk_1
         )
 
-        inventory_pk = inventories[0][
-            "inventory_details"
-        ][0]["inventory_id"]
-        
+        inventory_pk = inventories[0]["inventory_details"][0]["inventory_id"]
+
         return ShoppingBag.objects.add_item(inventory_pk, self.__user)
-    
+
     def __test_increase_shopping_bag_quantity(self):
         inventories = Inventory.objects.get_product_into_product_page(
             self.__category_pk_1, self.__color_pk_1
         )
-        
-        inventory_pk = inventories[0][
-            "inventory_details"
-        ][0]["inventory_id"]
-        
+
+        inventory_pk = inventories[0]["inventory_details"][0]["inventory_id"]
+
         return ShoppingBag.objects.increase_item_quantity(inventory_pk, self.__user)
-        
+
     def __test_decrease_shopping_bag_quantity(self):
         inventories = Inventory.objects.get_product_into_product_page(
             self.__category_pk_1, self.__color_pk_1
         )
-        
-        inventory_pk = inventories[0][
-            "inventory_details"
-        ][0]["inventory_id"]
-        
+
+        inventory_pk = inventories[0]["inventory_details"][0]["inventory_id"]
+
         return ShoppingBag.objects.decrease_item_quantity(inventory_pk, self.__user)
-    
+
     def __test_get_all_shopping_bag_items_per_user(self):
         bag_items = ShoppingBag.objects.get_all_shopping_bag_items_per_user(self.__user)
-        
+
         result = []
-        
+
         total_bag_price = bag_items[0]["total_bag_sum"]
-        
+
         result.append(f"Total bag price: {total_bag_price}")
-        
+
         for bag_item in bag_items:
             result.append(f"First image: {bag_item['first_image']}")
             result.append(f"Color: {bag_item['full_color_title']}")
@@ -210,7 +214,11 @@ class TestEntireFunctionality:
 
         return "\n\n".join(result)
 
+    def __test_clicking_on_continue_checkout_button(self):
+        pass
+
     def execute(self):
+        pass
 
         # result.append(self.__test_register_user())
         # result.append(self.__test_register_user_with_duplicate_email())
@@ -221,8 +229,8 @@ class TestEntireFunctionality:
         # result = self.__test_execute_clicking_on_the_add_to_bag_button()
         # result = self.__test_increase_shopping_bag_quantity()
         # result = self.__test_decrease_shopping_bag_quantity()
-        result = self.__test_get_all_shopping_bag_items_per_user()
-        return result
+        # result = self.__test_get_all_shopping_bag_items_per_user()
+        # return result
         # return "\n\n".join(result)
 
 
