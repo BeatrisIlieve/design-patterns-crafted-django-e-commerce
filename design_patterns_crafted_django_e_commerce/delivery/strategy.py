@@ -66,13 +66,9 @@ class ExpressHomeDeliveryStrategy(DeliveryStrategy):
 
     def calculate_total_order_cost(self, user) -> float:
 
-        shopping_bag_total_price = ShoppingBag.objects.calculate_total_price(user)
-
-        delivery_cost = Decimal(ExpressHomeDeliveryStrategy.DELIVERY_COST)
-
-        total_cost = shopping_bag_total_price + delivery_cost
-
-        return total_cost
+        return calculate_total_delivery_cost(
+            user, ExpressHomeDeliveryStrategy.DELIVERY_COST
+        )
 
     def calculate_delivery_due_date(self) -> str:
         return now().date() + timedelta(days=2)
