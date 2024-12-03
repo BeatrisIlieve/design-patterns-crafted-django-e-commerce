@@ -5,6 +5,12 @@ from django.core.exceptions import (
 from design_patterns_crafted_django_e_commerce.user_shipping_details.models import (
     UserShippingDetails,
 )
+from design_patterns_crafted_django_e_commerce.user_credential_details.models import (
+    UserCredentialDetails,
+)
+from design_patterns_crafted_django_e_commerce.order.models import (
+    Order,
+)
 
 
 class UpdateUserShippingDetails:
@@ -28,10 +34,17 @@ class UpdateUserShippingDetails:
             obj.full_clean()
             obj.save()
 
-            return "User Shipping Details has been save successfully"
+            return "User Shipping Details have been successfully updated"
 
         except ValidationError as e:
             return e.messages
+
+
+class CreateOrder:
+    def create_order(self, user_pk):
+        user = UserCredentialDetails.objects.get(pk=user_pk)
+
+        Order.objects.create(user=user)
 
 
 class Facade:
