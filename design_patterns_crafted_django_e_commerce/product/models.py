@@ -62,5 +62,5 @@ class Product(models.Model):
         max_length=300,
     )
 
-    # def __str__(self):
-    #     return f"{self.color_set.get_title_display()} {self.category_set.get_title_display()}"
+    def __str__(self):
+        return f"{self.color.get_title_display()} {self.category.get_title_display()}"

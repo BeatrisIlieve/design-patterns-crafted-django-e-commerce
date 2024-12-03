@@ -23,6 +23,8 @@ from .constants import (
 
 
 class UserShippingDetails(BaseUserCharField):
+    class Meta:
+        verbose_name_plural = "User Shipping Details"
 
     first_name = BaseUserCharField.create_char_field(
         max_length=FIRST_NAME_RULES["max_length"],
