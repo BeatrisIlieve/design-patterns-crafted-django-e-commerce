@@ -19,11 +19,6 @@ class Delivery(models.Model):
         choices=METHOD_CHOICES,
     )
 
-    delivery_cost = models.DecimalField(
-        max_digits=4,
-        decimal_places=2,
-    )
-
     total_cost = models.DecimalField(
         max_digits=7,
         decimal_places=2,

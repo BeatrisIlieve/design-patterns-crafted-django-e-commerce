@@ -44,9 +44,9 @@ class CreateUserOrder:
     def create_order(self, user_pk):
         user = UserCredentialDetails.objects.get(pk=user_pk)
 
-        Order.objects.create(user=user)
+        order = Order.objects.create(user=user)
 
-        return "Order has been successfully created"
+        return order, user
 
 
 class Facade:
@@ -59,6 +59,8 @@ class Facade:
             update_user_shipping_details
         )
         self.create_user_order: CreateUserOrder = create_user_order
+        self._order: Order = None
+        self._user: UserCredentialDetails = None
 
     def operation(self, user_pk, shipping_details):
         result = []
@@ -69,7 +71,7 @@ class Facade:
             )
         )
 
-        result.append(self.create_user_order(user_pk))
+        self._order, self._user = self.create_user_order(user_pk)
 
         return "\n".join(result)
 
