@@ -47,6 +47,11 @@ class CreateUserOrder:
         order = Order.objects.create(user=user)
 
         return order, user
+    
+
+class CreateUserDelivery:
+    def create_delivery(self, user: UserCredentialDetails, order: Order, method):
+        pass
 
 
 class Facade:

@@ -40,16 +40,11 @@ class DeliveryStrategy(ABC):
     def calculate_delivery_due_date(self) -> str:
         pass
 
-    @abstractmethod
-    def add_related_order(self, user) -> float:
-        pass
-
 
 class StorePickupStrategy(DeliveryStrategy):
     def get_method_choice_name(self) -> str:
         return "SP"
-    
-    
+
     def calculate_total_order_cost(self, user) -> float:
 
         shopping_bag_total_price = ShoppingBag.objects.calculate_total_price(user)
@@ -63,3 +58,22 @@ class StorePickupStrategy(DeliveryStrategy):
     def calculate_delivery_due_date(self) -> str:
         return now().date()
 
+
+class ExpressHomeDeliveryStrategy(DeliveryStrategy):
+    DELIVERY_COST = 30
+
+    def get_method_choice_name(self) -> str:
+        return "EH"
+
+    def calculate_total_order_cost(self, user) -> float:
+
+        shopping_bag_total_price = ShoppingBag.objects.calculate_total_price(user)
+
+        delivery_cost = Decimal(ExpressHomeDeliveryStrategy.DELIVERY_COST)
+
+        total_cost = shopping_bag_total_price + delivery_cost
+
+        return total_cost
+
+    def calculate_delivery_due_date(self) -> str:
+        return now().date() + timedelta(days=2)
