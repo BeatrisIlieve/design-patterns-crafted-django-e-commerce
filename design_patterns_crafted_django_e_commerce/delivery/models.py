@@ -2,8 +2,8 @@ from django.db import (
     models,
 )
 
-from design_patterns_crafted_django_e_commerce.user_credential_details.models import (
-    UserCredentialDetails,
+from design_patterns_crafted_django_e_commerce.order.models import (
+    Order,
 )
 
 
@@ -31,7 +31,7 @@ class Delivery(models.Model):
 
     due_date = models.DateField()
 
-    user = models.ForeignKey(
-        to=UserCredentialDetails,
+    order = models.ForeignKey(
+        to=Order,
         on_delete=models.CASCADE,
     )
