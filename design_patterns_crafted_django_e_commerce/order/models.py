@@ -26,7 +26,11 @@ class Order(models.Model):
 
 class OrderItem(BaseShoppingEntity):
     class Meta:
-        unique_together = ("user", "inventory", "order")
+        unique_together = (
+            "user",
+            "inventory",
+            "order",
+        )
 
     order = models.OneToOneField(
         to=Order,
