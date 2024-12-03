@@ -236,6 +236,13 @@ class TestEntireFunctionality:
             apartment="Apt. 1",
             postal_code="1000",
         )
+        
+        
+        
+        update_delivery_address = UpdateDeliveryAddress()
+        set_delivery_method = SetDeliveryMethod()
+        facade = Facade(update_delivery_address, set_delivery_method)
+        method = DeliveryMethod.EXPRESS_HOME
 
     def execute(self):
         pass
@@ -324,4 +331,11 @@ Price Range: 43000.00 - 45000.00
 Is sold out: False
 
 Product has been removed from the wishlist
+"""
+
+"""
+1. Update UserShippingDetails
+2. Create Order
+3. Call strategy to calculate delivery details
+4. Populate Delivery model (method, delivery_cost, total_cost, due_date, order)
 """
