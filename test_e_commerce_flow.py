@@ -57,6 +57,13 @@ from design_patterns_crafted_django_e_commerce.user_shipping_details.models impo
     UserShippingDetails,
 )
 
+from design_patterns_crafted_django_e_commerce.delivery.facade import (
+    Facade,
+    UpdateUserShippingDetails,
+    CreateUserOrder,
+    CreateUserDelivery,
+)
+
 
 class TestEntireFunctionality:
     def __init__(self) -> None:
@@ -226,9 +233,9 @@ class TestEntireFunctionality:
         city = City.objects.get(name="Los Angeles")
 
         self.__user_shipping_details.update(
-            first_name="Beatris",  
-            last_name="Ilieva",  
-            phone_number="1234567890", 
+            first_name="Beatris",
+            last_name="Ilieva",
+            phone_number="1234567890",
             country=country,
             city=city,
             region=region,
@@ -236,13 +243,12 @@ class TestEntireFunctionality:
             apartment="Apt. 1",
             postal_code="1000",
         )
-        
-        
-        
-        update_delivery_address = UpdateDeliveryAddress()
-        set_delivery_method = SetDeliveryMethod()
+
+        update_user_shipping_details = UpdateUserShippingDetails()
+        create_user_order = CreateUserOrder()
+        create_user_delivery = CreateUserDelivery()
         facade = Facade(update_delivery_address, set_delivery_method)
-        method = DeliveryMethod.EXPRESS_HOME
+        method_choice = "EH"
 
     def execute(self):
         pass
