@@ -23,15 +23,14 @@ class BaseShoppingEntity(models.Model):
     inventory = models.ForeignKey(
         to=Inventory,
         on_delete=models.CASCADE,
-        related_name="inventory",
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
     )
 
     user = models.ForeignKey(
         to=UserCredentialDetails,
         on_delete=models.CASCADE,
         related_name="user_shopping_bag",
-    )
-    
-    created_at = models.DateTimeField(
-        auto_now_add=True,
     )

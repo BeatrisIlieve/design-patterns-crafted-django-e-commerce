@@ -9,4 +9,5 @@ from design_patterns_crafted_django_e_commerce.common.models.base_shopping_entit
 
 
 class ShoppingBag(BaseShoppingEntity):
+
     objects = ShoppingBagManager()

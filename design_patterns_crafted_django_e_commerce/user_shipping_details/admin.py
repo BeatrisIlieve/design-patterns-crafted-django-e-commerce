@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from design_patterns_crafted_django_e_commerce.user_shipping_details.models import (
+    UserShippingDetails,
+)
+
+
+@admin.register(UserShippingDetails)
+class UserShippingDetailsAdmin(admin.ModelAdmin):
+    pass
