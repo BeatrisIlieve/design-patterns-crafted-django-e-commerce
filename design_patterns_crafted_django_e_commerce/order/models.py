@@ -10,42 +10,42 @@
 
 
 # class Order(models.Model):
-#     DELIVERY_METHOD_CHOICES = (
-#         ("SP", "Store Pickup"),
-#         ("EH", "Express Home Delivery"),
-#         ("RH", "Regular Home Delivery"),
-#     )
+    # DELIVERY_METHOD_CHOICES = (
+    #     ("SP", "Store Pickup"),
+    #     ("EH", "Express Home Delivery"),
+    #     ("RH", "Regular Home Delivery"),
+    # )
 
-#     delivery_method = models.CharField(
-#         max_length=2,
-#         choices=DELIVERY_METHOD_CHOICES,
-#         null=True,
-#         blank=True,
-#     )
+    # delivery_method = models.CharField(
+    #     max_length=2,
+    #     choices=DELIVERY_METHOD_CHOICES,
+    #     null=True,
+    #     blank=True,
+    # )
 
-#     delivery_cost = models.DecimalField(
-#         max_digits=4,
-#         decimal_places=2,
-#         null=True,
-#         blank=True,
-#     )
+    # delivery_cost = models.DecimalField(
+    #     max_digits=4,
+    #     decimal_places=2,
+    #     null=True,
+    #     blank=True,
+    # )
 
-#     total_cost = models.DecimalField(
-#         max_digits=7,
-#         decimal_places=2,
-#         null=True,
-#         blank=True,
-#     )
+    # total_cost = models.DecimalField(
+    #     max_digits=7,
+    #     decimal_places=2,
+    #     null=True,
+    #     blank=True,
+    # )
 
-#     due_date = models.DateField(
-#         null=True,
-#         blank=True,
-#     )
+    # due_date = models.DateField(
+    #     null=True,
+    #     blank=True,
+    # )
 
-#     user = models.ForeignKey(
-#         to=UserShippingDetails,
-#         on_delete=models.CASCADE,
-#     )
+    # user = models.ForeignKey(
+    #     to=UserShippingDetails,
+    #     on_delete=models.CASCADE,
+    # )
 
 
 # class OrderItem(BaseShoppingEntity):
