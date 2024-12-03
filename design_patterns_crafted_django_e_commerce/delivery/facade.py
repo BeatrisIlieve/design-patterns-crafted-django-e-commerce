@@ -11,6 +11,14 @@ from design_patterns_crafted_django_e_commerce.user_credential_details.models im
 from design_patterns_crafted_django_e_commerce.order.models import (
     Order,
 )
+from .strategy import (
+    DeliveryMethod,
+    execute_context,
+)
+
+from design_patterns_crafted_django_e_commerce.delivery.models import (
+    Delivery,
+)
 
 
 class UpdateUserShippingDetails:
@@ -47,11 +55,26 @@ class CreateUserOrder:
         order = Order.objects.create(user=user)
 
         return order, user
-    
+
 
 class CreateUserDelivery:
-    def create_delivery(self, user: UserCredentialDetails, order: Order, method):
-        pass
+    def create_delivery(self, user: UserCredentialDetails, order: Order, method_choice):
+        method_mapper = {
+            "SP": DeliveryMethod.STORE_PICKUP,
+            "EH": DeliveryMethod.EXPRESS_HOME,
+            "RH": DeliveryMethod.REGULAR_HOME,
+        }
+
+        method = method_mapper[method_choice]
+
+        delivery_details = execute_context(user, method)
+
+        Delivery.objects.create(
+            method=delivery_details["method"],
+            total_cost=delivery_details["total_cost"],
+            due_date=delivery_details["due_date"],
+            order=order,
+        )
 
 
 class Facade:
@@ -59,6 +82,7 @@ class Facade:
         self,
         update_user_shipping_details: UpdateUserShippingDetails,
         create_user_order: CreateUserOrder,
+        create_user_delivery: CreateUserDelivery,
     ) -> None:
         self._update_user_shipping_details: UpdateUserShippingDetails = (
             update_user_shipping_details
@@ -66,8 +90,9 @@ class Facade:
         self.create_user_order: CreateUserOrder = create_user_order
         self._order: Order = None
         self._user: UserCredentialDetails = None
+        self.create_user_delivery: CreateUserDelivery = create_user_delivery
 
-    def operation(self, user_pk, shipping_details):
+    def operation(self, user_pk, method_choice, shipping_details):
         result = []
 
         result.append(
@@ -76,10 +101,14 @@ class Facade:
             )
         )
 
-        self._order, self._user = self.create_user_order(user_pk)
+        self._order, self._user = self.create_user_order.create_order(user_pk)
+
+        self.create_user_delivery.create_delivery(
+            self._user, self._order, method_choice
+        )
 
         return "\n".join(result)
 
 
-def client_code(facade: Facade, user_pk, method, shipping_details):
-    return facade.operation(user_pk, method, shipping_details)
+def client_code(facade: Facade, user_pk, method_choice, shipping_details):
+    return facade.operation(user_pk, method_choice, shipping_details)

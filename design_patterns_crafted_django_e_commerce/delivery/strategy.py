@@ -87,15 +87,15 @@ class DeliveryContext:
     def __init__(self, strategy: DeliveryStrategy) -> None:
         self.strategy = strategy
 
-    def get_delivery_details(self, user_pk):
+    def get_delivery_details(self, user):
         method = self.strategy.get_method_choice_name()
-        total_cost = self.strategy.calculate_total_order_cost(user_pk)
+        total_cost = self.strategy.calculate_total_order_cost(user)
         due_date = self.strategy.calculate_delivery_due_date()
 
         return {"method": method, "total_cost": total_cost, "due_date": due_date}
 
 
-def execute_context(user_pk, method):
+def execute_context(user, method):
     strategies = {
         DeliveryMethod.STORE_PICKUP: StorePickupStrategy(),
         DeliveryMethod.EXPRESS_HOME: ExpressHomeDeliveryStrategy(),
@@ -103,4 +103,4 @@ def execute_context(user_pk, method):
     }
 
     context = DeliveryContext(strategy=strategies[method])
-    return context.get_delivery_details(user_pk)
+    return context.get_delivery_details(user)
