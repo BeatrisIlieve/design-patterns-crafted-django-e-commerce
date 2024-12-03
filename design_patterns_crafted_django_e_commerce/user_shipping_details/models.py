@@ -58,15 +58,6 @@ class UserShippingDetails(BaseUserCharField):
         blank=False,
     )
 
-    # country = BaseUserCharField.create_char_field(
-    #     max_length=COUNTRY_NAME_RULES["max_length"],
-    #     min_length=COUNTRY_NAME_RULES["min_length"],
-    #     pattern=COUNTRY_NAME_RULES["pattern"],
-    #     pattern_error_message=COUNTRY_NAME_RULES["pattern_error_message"],
-    #     null_value=COUNTRY_NAME_RULES["null"],
-    #     blank_value=COUNTRY_NAME_RULES["blank"],
-    # )
-
     city = models.ForeignKey(
         to=City,
         on_delete=models.SET_NULL,
@@ -74,15 +65,6 @@ class UserShippingDetails(BaseUserCharField):
         blank=False,
     )
 
-    # city = BaseUserCharField.create_char_field(
-    #     max_length=CITY_NAME_RULES["max_length"],
-    #     min_length=CITY_NAME_RULES["min_length"],
-    #     pattern=CITY_NAME_RULES["pattern"],
-    #     pattern_error_message=CITY_NAME_RULES["pattern_error_message"],
-    #     null_value=CITY_NAME_RULES["null"],
-    #     blank_value=CITY_NAME_RULES["blank"],
-    # )
-    
     region = models.ForeignKey(
         to=Region,
         on_delete=models.SET_NULL,
