@@ -18,9 +18,9 @@ from design_patterns_crafted_django_e_commerce.utils.functions.calculate_total_d
 
 
 class DeliveryMethod(Enum):
-    SP = "Store Pickup"
-    EH = "Express Home Delivery"
-    RH = "Regular Home Delivery"
+    STORE_PICKUP = "Store Pickup"
+    EXPRESS_HOME = "Express Home Delivery"
+    REGULAR_HOME = "Regular Home Delivery"
 
 
 class DeliveryStrategy(ABC):
@@ -81,3 +81,26 @@ class RegularHomeDeliveryStrategy(DeliveryStrategy):
 
     def calculate_delivery_due_date(self) -> str:
         return now().date() + timedelta(days=7)
+
+
+class DeliveryContext:
+    def __init__(self, strategy: DeliveryStrategy) -> None:
+        self.strategy = strategy
+
+    def get_delivery_details(self, user_pk):
+        method = self.strategy.get_method_choice_name()
+        total_cost = self.strategy.calculate_total_order_cost(user_pk)
+        due_date = self.strategy.calculate_delivery_due_date()
+
+        return {"method": method, "total_cost": total_cost, "due_date": due_date}
+
+
+def execute_context(user_pk, method):
+    strategies = {
+        DeliveryMethod.STORE_PICKUP: StorePickupStrategy(),
+        DeliveryMethod.EXPRESS_HOME: ExpressHomeDeliveryStrategy(),
+        DeliveryMethod.REGULAR_HOME: RegularHomeDeliveryStrategy(),
+    }
+
+    context = DeliveryContext(strategy=strategies[method])
+    return context.get_delivery_details(user_pk)
