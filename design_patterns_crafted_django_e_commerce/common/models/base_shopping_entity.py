@@ -14,7 +14,6 @@ class BaseShoppingEntity(models.Model):
     class Meta:
         abstract = True
         unique_together = ("user", "inventory")
-        ordering = ("-created_at",)
 
     quantity = models.PositiveIntegerField(
         default=1,
@@ -32,5 +31,4 @@ class BaseShoppingEntity(models.Model):
     user = models.ForeignKey(
         to=UserCredentialDetails,
         on_delete=models.CASCADE,
-        related_name="user_shopping_bag",
     )
