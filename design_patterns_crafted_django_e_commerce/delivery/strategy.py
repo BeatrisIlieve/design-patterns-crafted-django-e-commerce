@@ -5,9 +5,6 @@ from abc import (
     ABC,
     abstractmethod,
 )
-from decimal import (
-    Decimal,
-)
 from datetime import (
     timedelta,
 )
@@ -15,10 +12,6 @@ from django.utils.timezone import (
     now,
 )
 
-from design_patterns_crafted_django_e_commerce.shopping_bag.models import ShoppingBag
-from design_patterns_crafted_django_e_commerce.user_credential_details.models import (
-    UserCredentialDetails,
-)
 from design_patterns_crafted_django_e_commerce.utils.functions.calculate_total_delivery_cost import (
     calculate_total_delivery_cost,
 )
@@ -82,13 +75,9 @@ class RegularHomeDeliveryStrategy(DeliveryStrategy):
 
     def calculate_total_order_cost(self, user) -> float:
 
-        shopping_bag_total_price = ShoppingBag.objects.calculate_total_price(user)
-
-        delivery_cost = Decimal(ExpressHomeDeliveryStrategy.DELIVERY_COST)
-
-        total_cost = shopping_bag_total_price + delivery_cost
-
-        return total_cost
+        return calculate_total_delivery_cost(
+            user, RegularHomeDeliveryStrategy.DELIVERY_COST
+        )
 
     def calculate_delivery_due_date(self) -> str:
         return now().date() + timedelta(days=7)
