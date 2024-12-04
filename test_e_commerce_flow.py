@@ -72,8 +72,10 @@ class TestEntireFunctionality:
         self.__user_password: str = "123456Aa@"
         self.__category_pk_1: int = Category.objects.get(title="E").pk
         self.__color_pk_1: int = Color.objects.get(title="P").pk
-        # self.__user: UserCredentialDetails = None
-        self.__user = UserCredentialDetails.objects.get(pk=1)
+        self.__category_pk_2: int = Category.objects.get(title="B").pk
+        self.__color_pk_2: int = Color.objects.get(title="B").pk
+        self.__user: UserCredentialDetails = None
+        # self.__user = UserCredentialDetails.objects.get(pk=1)
 
     def __test_register_user(self) -> str:
         try:
@@ -194,9 +196,9 @@ class TestEntireFunctionality:
         
         return "\n\n".join(result)
 
-    def __test_execute_clicking_on_the_add_to_bag_button(self):
+    def __test_execute_clicking_on_the_add_to_bag_button(self, category_pk, color_pk):
         inventories = Inventory.objects.get_product_into_product_page(
-            self.__category_pk_1, self.__color_pk_1
+            category_pk, color_pk
         )
 
         inventory_pk = inventories[0]["inventory_details"][0]["inventory_id"]
@@ -240,9 +242,9 @@ class TestEntireFunctionality:
         return "\n\n".join(result)
 
     def __test_clicking_on_continue_checkout_button(self):
-        country = Country.objects.get(name="USA")
-        region = Region.objects.get(name="California")
-        city = City.objects.get(name="Los Angeles")
+        country = Country.objects.get(name="Bulgaria")
+        region = Region.objects.get(name="Sofia-Capital")
+        city = City.objects.get(name="Sofia")
 
         shipping_details = {
             "first_name": "Beatris",
@@ -251,7 +253,7 @@ class TestEntireFunctionality:
             "country": country,
             "city": city,
             "region": region,
-            "street_address": "Some Street 1-",
+            "street_address": "Some Street 1",
             "apartment": "Apt. 1",
             "postal_code": "1000",
         }
@@ -264,25 +266,26 @@ class TestEntireFunctionality:
         )
         method_choice = "EH"
         
-        client_code(facade, self.__user.pk, method_choice, shipping_details)
+        return client_code(facade, self.__user.pk, method_choice, shipping_details)
 
     def execute(self):
         result = []
 
-        # result.append(self.__test_register_user())
-        # result.append(self.__test_register_user_with_duplicate_email())
-        # result.append(self.__test_get_product_into_products_list_page())
-        # result.append(self.__test_get_product_into_product_page())
-        # result.append(self.__test_execute_clicking_on_the_like_button())
-        # result = self.__test_get_products_in_user_wishlist()
+        result.append(self.__test_register_user())
+        result.append(self.__test_register_user_with_duplicate_email())
+        result.append(self.__test_get_product_into_products_list_page())
+        result.append(self.__test_get_product_into_product_page())
+        result.append(self.__test_execute_clicking_on_the_like_button())
         result.append(self.__test_get_products_in_user_wishlist())
-        # result = self.__test_execute_clicking_on_the_add_to_bag_button()
-        # result = self.__test_increase_shopping_bag_quantity()
-        # result = self.__test_decrease_shopping_bag_quantity()
-        # result = self.__test_get_all_shopping_bag_items_per_user()
-        # result.append(self.__test_clicking_on_continue_checkout_button())
-        return "\n\n".join(result)
-        # print(result)
+        result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_1, self.__color_pk_1))
+        result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_2, self.__color_pk_2))
+        result.append(self.__test_increase_shopping_bag_quantity())
+        result.append(self.__test_decrease_shopping_bag_quantity())
+        result.append(self.__test_get_all_shopping_bag_items_per_user())
+        result.append(self.__test_clicking_on_continue_checkout_button())
+        # result = self.__test_clicking_on_continue_checkout_button()
+        # return "\n\n".join(result)
+        print(result)
 
 
 instance = TestEntireFunctionality()

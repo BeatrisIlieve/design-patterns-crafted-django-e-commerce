@@ -78,7 +78,7 @@ class ShoppingBagManager(models.Manager):
 
     def calculate_total_price(self, user):
         total_price = (
-            self.objects.filter(user=user)
+            self.filter(user=user)
             .annotate(item_total=F("quantity") * F("inventory__price"))
             .aggregate(total_price=Sum("item_total"))["total_price"]
         )

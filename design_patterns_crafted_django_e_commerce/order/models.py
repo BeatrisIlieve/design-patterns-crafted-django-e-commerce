@@ -1,11 +1,11 @@
 from django.db import models
 
-from design_patterns_crafted_django_e_commerce.common.models.base_shopping_entity import (
-    BaseShoppingEntity,
-)
 
 from design_patterns_crafted_django_e_commerce.user_credential_details.models import (
     UserCredentialDetails,
+)
+from design_patterns_crafted_django_e_commerce.inventory.models import (
+    Inventory,
 )
 
 
@@ -24,13 +24,29 @@ class Order(models.Model):
             OrderItem.objects.create(order=self)
 
 
-class OrderItem(BaseShoppingEntity):
+class OrderItem(models.Model):
+
     class Meta:
         unique_together = (
-            "user",
             "inventory",
             "order",
         )
+
+    quantity = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    inventory = models.ForeignKey(
+        to=Inventory,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
 
     order = models.OneToOneField(
         to=Order,
