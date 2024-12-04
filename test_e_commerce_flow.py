@@ -50,12 +50,6 @@ from design_patterns_crafted_django_e_commerce.inventory.models import (
 from design_patterns_crafted_django_e_commerce.wishlist.models import (
     Wishlist,
 )
-from design_patterns_crafted_django_e_commerce.user_payment_details.models import (
-    UserPaymentDetails,
-)
-from design_patterns_crafted_django_e_commerce.user_shipping_details.models import (
-    UserShippingDetails,
-)
 
 from design_patterns_crafted_django_e_commerce.delivery.facade import (
     Facade,
