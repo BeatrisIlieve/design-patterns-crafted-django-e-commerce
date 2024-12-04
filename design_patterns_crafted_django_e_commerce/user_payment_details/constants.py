@@ -17,14 +17,6 @@ CARD_NUMBER_RULES = {
     "blank": False,
 }
 
-EXPIRY_DATE_RULES = {
-    "max_length": 5,
-    "min_length": 5,
-    "pattern": "^\d{2}/\d{2}$",
-    "pattern_error_message": "The Expiry Date must be in the format 'MM/YY'",
-    "null": False,
-    "blank": False,
-}
 
 CVV_CODE_RULES = {
     "max_length": 3,
