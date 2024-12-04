@@ -65,23 +65,7 @@ from design_patterns_crafted_django_e_commerce.user_delivery.facade import (
     client_code,
 )
 
-# Get the current month and year
-# current_date = datetime.now()
-# current_month = current_date.month
-# current_year = current_date.year
 
-# MONTH_CHOICES = [
-#     (f"{month:02}", f"{month:02}")
-#     for month in range(current_month, 13)
-# ]
-
-# YEAR_CHOICES = [
-#     (year, year)
-#     for year in range(current_year, current_year + 12)
-# ]
-
-# print(MONTH_CHOICES)
-# print(YEAR_CHOICES)
 
 
 class TestEntireFunctionality:
