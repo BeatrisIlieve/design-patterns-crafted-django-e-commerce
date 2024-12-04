@@ -81,7 +81,9 @@ class TestEntireFunctionality:
         self.__category_pk_2: int = Category.objects.get(title="B").pk
         self.__color_pk_2: int = Color.objects.get(title="B").pk
         # self.__user: UserCredentialDetails = None
-        self.__user = UserCredentialDetails.objects.get(email="beatrisilieve@icloud.com")
+        self.__user = UserCredentialDetails.objects.get(
+            email="beatrisilieve@icloud.com"
+        )
 
     def __test_register_user(self) -> str:
         try:
@@ -272,7 +274,9 @@ class TestEntireFunctionality:
         )
         method_choice = "EH"
 
-        return client_code_delivery(facade, self.__user.pk, method_choice, shipping_details)
+        return client_code_delivery(
+            facade, self.__user.pk, method_choice, shipping_details
+        )
 
     def __test_clicking_on_process_payment_button(self):
         payment_details = {
@@ -293,7 +297,31 @@ class TestEntireFunctionality:
             generate_order_confirmation,
         )
 
-        return client_code_order(facade, self.__user.pk, payment_details)
+        order_confirmation_data = client_code_order(
+            facade, self.__user.pk, payment_details
+        )
+
+        result = [
+            "\n",
+            "Order Confirmation:",
+        ]
+
+        for data in order_confirmation_data:
+            result.extend(
+                [
+                    f"Item quantity: {data['order_item_order__quantity']}",
+                    f"Item Price: {data['order_item_order__inventory__price']}",
+                    f"Total Price Per Item: {data['total_price_per_product']}",
+                    f"Item Size: {data['order_item_order__inventory__size']}",
+                    f"Item Image: {data['order_item_order__inventory__product__first_image_url']}",
+                    f"Delivery Method: {data['delivery__method']}",
+                    f"Total Order Cost: {data['delivery__total_cost']}",
+                    f"Delivery De Date: {data['delivery__due_date']}",
+                    f"Created at: {data['created_date']}",
+                ]
+            )
+
+        return "\n\n".join(result)
 
     def execute(self):
         result = []
@@ -310,9 +338,9 @@ class TestEntireFunctionality:
         # result.append(self.__test_decrease_shopping_bag_quantity())
         # result.append(self.__test_get_all_shopping_bag_items_per_user())
         # result.append(self.__test_clicking_on_continue_checkout_button())
-        result = self.__test_clicking_on_process_payment_button()
-        print(result)
-        # return "\n\n".join(result)
+        result.append(self.__test_clicking_on_process_payment_button())
+        # return result
+        return "\n\n".join(result)
 
 
 instance = TestEntireFunctionality()

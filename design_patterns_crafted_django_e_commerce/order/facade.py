@@ -4,7 +4,9 @@ from django.core.exceptions import (
 from django.db.models.functions import (
     TruncDate,
 )
-
+from django.db.models import (
+    F,
+)
 from design_patterns_crafted_django_e_commerce.user_payment_details.models import (
     UserPaymentDetails,
 )
@@ -63,9 +65,25 @@ class GenerateOrderConfirmation:
     def generate(self, user_pk):
         return (
             Order.objects.filter(user_id=user_pk)
-            .prefetch_related("order_item")
-            .annotate(created_date=TruncDate("created_at"))
-            .values("created_date", "order_item__quantity")
+            .select_related("delivery")
+            .prefetch_related("order_item_order__inventory__product")
+            .annotate(
+                created_date=TruncDate("created_at"),
+                total_price_per_product=F("order_item_order__inventory__price")
+                * F("order_item_order__quantity"),
+            )
+            .values(
+                "created_date",
+                "order_item_order__quantity",
+                "order_item_order__inventory__price",
+                "total_price_per_product",
+                "order_item_order__inventory__size",
+                "order_item_order__inventory__product__first_image_url",
+                "delivery__method",
+                "delivery__total_cost",
+                "delivery__due_date",
+                
+            ).order_by("order_item_order__pk")
         )
 
 
