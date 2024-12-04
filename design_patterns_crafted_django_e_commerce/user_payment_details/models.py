@@ -1,9 +1,12 @@
 from datetime import datetime
 
+from django.core.exceptions import (
+    ValidationError,
+)
+
 from django.db import (
     models,
 )
-
 
 from design_patterns_crafted_django_e_commerce.common.models import (
     BaseUserCharField,
@@ -19,7 +22,6 @@ from .constants import (
 class MonthChoices(models.TextChoices):
     @classmethod
     def generate_choices(cls):
-        # current_month = datetime.now().month
         return [(f"{month:02}", f"{month:02}") for month in range(1, 13)]
 
 
@@ -78,18 +80,21 @@ class UserPaymentDetails(BaseUserCharField):
         related_name="payment_details",
     )
 
-    # def clean(self):
-    #     if self.expiry_date:
-    #         provided_month, provided_year = self.expiry_date.split("/")
+    def clean(self):
+        current_date = datetime.now()
+        current_month = current_date.month
+        current_year = current_date.year
 
-    #         current_date = str(now().date())
+        expiry_month = int(self.expiry_month)
+        expiry_year = int(self.expiry_year)
 
-    #         current_year, current_month, _ = current_date.split("-")
+        if expiry_year < current_year:
+            raise ValidationError("This card has expired")
 
-    #         if provided_year < current_year[-2:] or provided_month < current_month:
-    #             raise ValidationError("This card has expired")
+        if expiry_year == current_year and expiry_month < current_month:
+            raise ValidationError("This card has expired")
 
-    # def save(self, *args, **kwargs):
-    #     self.clean()
+    def save(self, *args, **kwargs):
+        self.clean()
 
-    #     super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
