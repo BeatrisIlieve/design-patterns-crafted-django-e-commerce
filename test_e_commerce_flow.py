@@ -22,8 +22,6 @@ django.setup()
 from datetime import datetime
 
 
-
-
 from cities_light.models import (
     Country,
     City,
@@ -64,8 +62,6 @@ from design_patterns_crafted_django_e_commerce.user_delivery.facade import (
     CreateUserDelivery,
     client_code,
 )
-
-
 
 
 class TestEntireFunctionality:
@@ -179,9 +175,9 @@ class TestEntireFunctionality:
 
     def __test_get_products_in_user_wishlist(self):
         inventories = Wishlist.objects.get_all_liked_products(self.__user)
-        
+
         result = []
-        
+
         for inventory in inventories:
             result.extend(
                 [
@@ -195,7 +191,7 @@ class TestEntireFunctionality:
                     f"Availability: {inventory[0]['is_sold_out']}",
                 ]
             )
-        
+
         return "\n\n".join(result)
 
     def __test_execute_clicking_on_the_add_to_bag_button(self, category_pk, color_pk):
@@ -267,14 +263,16 @@ class TestEntireFunctionality:
             update_user_shipping_details, create_user_order, create_user_delivery
         )
         method_choice = "EH"
-        
+
         return client_code(facade, self.__user.pk, method_choice, shipping_details)
-    
+
     def __test_clicking_on_process_payment_button(self):
         payment_details = {
             "card_holder": "Beatris Ilieva",
-            "card_number": "1234567890123456",
-            
+            "card_number": "1234567890123457",
+            "expiry_month": "05",
+            "expiry_year": "2026",
+            "cvv_code": "123",
         }
 
     def execute(self):
