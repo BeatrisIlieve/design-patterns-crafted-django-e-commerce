@@ -15,14 +15,6 @@ class Order(models.Model):
         on_delete=models.CASCADE,
     )
 
-    def save(self, *args, **kwargs):
-        is_new = self.pk is None
-
-        super().save(*args, **kwargs)
-
-        if is_new:
-            OrderItem.objects.create(order=self)
-
 
 class OrderItem(models.Model):
 
@@ -32,10 +24,7 @@ class OrderItem(models.Model):
             "order",
         )
 
-    quantity = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-    )
+    quantity = models.PositiveIntegerField()
 
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -44,12 +33,9 @@ class OrderItem(models.Model):
     inventory = models.ForeignKey(
         to=Inventory,
         on_delete=models.CASCADE,
-        null=True,
-        blank=True,
     )
 
-    order = models.OneToOneField(
+    order = models.ForeignKey(
         to=Order,
         on_delete=models.CASCADE,
-        primary_key=True,
     )

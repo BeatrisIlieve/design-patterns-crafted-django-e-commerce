@@ -75,7 +75,7 @@ class TestEntireFunctionality:
         self.__category_pk_2: int = Category.objects.get(title="B").pk
         self.__color_pk_2: int = Color.objects.get(title="B").pk
         self.__user: UserCredentialDetails = None
-        # self.__user = UserCredentialDetails.objects.get(pk=1)
+        # self.__user = UserCredentialDetails.objects.get(email="beatrisilieve@icloud.com")
 
     def __test_register_user(self) -> str:
         try:
@@ -283,9 +283,7 @@ class TestEntireFunctionality:
         result.append(self.__test_decrease_shopping_bag_quantity())
         result.append(self.__test_get_all_shopping_bag_items_per_user())
         result.append(self.__test_clicking_on_continue_checkout_button())
-        # result = self.__test_clicking_on_continue_checkout_button()
-        # return "\n\n".join(result)
-        print(result)
+        return "\n\n".join(result)
 
 
 instance = TestEntireFunctionality()
