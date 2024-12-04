@@ -86,3 +86,7 @@ class Facade:
         self._order = self.move_shopping_bag_items_to_order_item.move_items(user_pk)
 
         return self.generate_order_confirmation.generate(user_pk, self._order)
+
+
+def client_code_order(facade: Facade, user_pk, payment_details):
+    return facade.operation(user_pk, payment_details)
