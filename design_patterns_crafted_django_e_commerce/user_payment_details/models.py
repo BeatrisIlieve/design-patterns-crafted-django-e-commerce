@@ -62,15 +62,6 @@ class UserPaymentDetails(BaseUserCharField):
         choices=YearChoices.generate_choices(),
     )
 
-    # expiry_date = BaseUserCharField.create_char_field(
-    #     max_length=EXPIRY_DATE_RULES["max_length"],
-    #     min_length=EXPIRY_DATE_RULES["min_length"],
-    #     pattern=EXPIRY_DATE_RULES["pattern"],
-    #     pattern_error_message=EXPIRY_DATE_RULES["pattern_error_message"],
-    #     null_value=EXPIRY_DATE_RULES["null"],
-    #     blank_value=EXPIRY_DATE_RULES["blank"],
-    # )
-
     cvv_code = BaseUserCharField.create_char_field(
         max_length=CVV_CODE_RULES["max_length"],
         min_length=CVV_CODE_RULES["min_length"],
