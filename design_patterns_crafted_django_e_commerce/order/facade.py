@@ -1,6 +1,3 @@
-# 1. Make payment
-# 2. Move shopping bag to order item
-# 3. Clean shopping bag
 from django.core.exceptions import (
     ValidationError,
 )
@@ -8,7 +5,8 @@ from django.core.exceptions import (
 from design_patterns_crafted_django_e_commerce.user_payment_details.models import (
     UserPaymentDetails,
 )
-
+from design_patterns_crafted_django_e_commerce.shopping_bag.models import (ShoppingBag,)
+from design_patterns_crafted_django_e_commerce.order.models import(Order, OrderItem,)
 
 class UpdateUserPaymentDetails:
     def update_related_obj(self, user_pk, payment_details):
@@ -31,3 +29,19 @@ class UpdateUserPaymentDetails:
 
         except ValidationError as e:
             return e.messages
+        
+class MoveShoppingBagItemsToOrderItem:
+    def move_items(self, user_pk):
+        bag_items = ShoppingBag.objects.filter(user=user_pk)
+        
+        order = Order.objects.get(user=user_pk)
+        
+        for bag_item in bag_items:
+            inventory = bag_item.inventory
+            quantity = bag_item.quantity
+        
+            OrderItem.objects.create(order=order, inventory=inventory, quantity=quantity)
+            
+            bag_item.delete()
+        
+        

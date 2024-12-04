@@ -19,20 +19,25 @@ CUSTOM_APPS = [
     "design_patterns_crafted_django_e_commerce.shopping_bag",
     "design_patterns_crafted_django_e_commerce.user_delivery",
     "design_patterns_crafted_django_e_commerce.order",
+    "design_patterns_crafted_django_e_commerce.purchase_history",
 ]
 
-CITIES_LIGHT_USE_ZIPCODE = True
-
-INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    
+THIRD_PARTY_APPS = [
     "cities_light",
-] + CUSTOM_APPS
+]
+
+INSTALLED_APPS = (
+    [
+        "django.contrib.admin",
+        "django.contrib.auth",
+        "django.contrib.contenttypes",
+        "django.contrib.sessions",
+        "django.contrib.messages",
+        "django.contrib.staticfiles",
+    ]
+    + CUSTOM_APPS
+    + THIRD_PARTY_APPS
+)
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
