@@ -56,11 +56,19 @@ from design_patterns_crafted_django_e_commerce.wishlist.models import (
 )
 
 from design_patterns_crafted_django_e_commerce.user_delivery.facade import (
-    Facade,
+    DeliveryFacade,
     UpdateUserShippingDetails,
     CreateUserOrder,
     CreateUserDelivery,
-    client_code,
+    client_code_delivery,
+)
+
+from design_patterns_crafted_django_e_commerce.order.facade import (
+    UpdateUserPaymentDetails,
+    MoveShoppingBagItemsToOrderItem,
+    GenerateOrderConfirmation,
+    OrderFacade,
+    client_code_order,
 )
 
 
@@ -259,12 +267,12 @@ class TestEntireFunctionality:
         update_user_shipping_details = UpdateUserShippingDetails()
         create_user_order = CreateUserOrder()
         create_user_delivery = CreateUserDelivery()
-        facade = Facade(
+        facade = DeliveryFacade(
             update_user_shipping_details, create_user_order, create_user_delivery
         )
         method_choice = "EH"
 
-        return client_code(facade, self.__user.pk, method_choice, shipping_details)
+        return client_code_delivery(facade, self.__user.pk, method_choice, shipping_details)
 
     def __test_clicking_on_process_payment_button(self):
         payment_details = {
@@ -275,27 +283,40 @@ class TestEntireFunctionality:
             "cvv_code": "123",
         }
 
+        update_user_payment_details = UpdateUserPaymentDetails()
+        move_shopping_bag_item_to_order_item = MoveShoppingBagItemsToOrderItem()
+        generate_order_confirmation = GenerateOrderConfirmation()
+
+        facade = OrderFacade(
+            update_user_payment_details,
+            move_shopping_bag_item_to_order_item,
+            generate_order_confirmation,
+        )
+
+        return client_code_order(facade, self.__user.pk, payment_details)
+
     def execute(self):
         result = []
 
-        # result.append(self.__test_register_user())
-        # result.append(self.__test_register_user_with_duplicate_email())
-        # result.append(self.__test_get_product_into_products_list_page())
-        # result.append(self.__test_get_product_into_product_page())
-        # result.append(self.__test_execute_clicking_on_the_like_button())
-        # result.append(self.__test_get_products_in_user_wishlist())
-        # result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_1, self.__color_pk_1))
-        # result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_2, self.__color_pk_2))
-        # result.append(self.__test_increase_shopping_bag_quantity())
-        # result.append(self.__test_decrease_shopping_bag_quantity())
-        # result.append(self.__test_get_all_shopping_bag_items_per_user())
-        # result.append(self.__test_clicking_on_continue_checkout_button())
+        result.append(self.__test_register_user())
+        result.append(self.__test_register_user_with_duplicate_email())
+        result.append(self.__test_get_product_into_products_list_page())
+        result.append(self.__test_get_product_into_product_page())
+        result.append(self.__test_execute_clicking_on_the_like_button())
+        result.append(self.__test_get_products_in_user_wishlist())
+        result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_1, self.__color_pk_1))
+        result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_2, self.__color_pk_2))
+        result.append(self.__test_increase_shopping_bag_quantity())
+        result.append(self.__test_decrease_shopping_bag_quantity())
+        result.append(self.__test_get_all_shopping_bag_items_per_user())
+        result.append(self.__test_clicking_on_continue_checkout_button())
+        # self.__test_clicking_on_process_payment_button()
         return "\n\n".join(result)
 
 
-# instance = TestEntireFunctionality()
+instance = TestEntireFunctionality()
 
-# print(instance.execute())
+print(instance.execute())
 
 # OUTPUT:
 """

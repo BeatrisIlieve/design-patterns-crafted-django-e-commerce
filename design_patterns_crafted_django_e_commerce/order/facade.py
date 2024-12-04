@@ -61,7 +61,7 @@ class GenerateOrderConfirmation:
         pass
 
 
-class Facade:
+class OrderFacade:
     def __init__(
         self,
         update_user_payment_details: UpdateUserPaymentDetails,
@@ -79,14 +79,14 @@ class Facade:
             generate_order_confirmation
         )
 
-    def operation(self, user_pk):
+    def operation(self, user_pk, payment_details):
 
-        self.update_user_payment_details.update_related_obj(user_pk)
+        self.update_user_payment_details.update_related_obj(user_pk, payment_details)
 
         self._order = self.move_shopping_bag_items_to_order_item.move_items(user_pk)
 
-        return self.generate_order_confirmation.generate(user_pk, self._order)
+        # return self.generate_order_confirmation.generate(user_pk, self._order)
 
 
-def client_code_order(facade: Facade, user_pk, payment_details):
+def client_code_order(facade: OrderFacade, user_pk, payment_details):
     return facade.operation(user_pk, payment_details)

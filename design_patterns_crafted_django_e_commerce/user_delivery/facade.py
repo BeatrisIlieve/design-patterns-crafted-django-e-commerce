@@ -79,7 +79,7 @@ class CreateUserDelivery:
         return "User Delivery Details have been successfully saved"
 
 
-class Facade:
+class DeliveryFacade:
     def __init__(
         self,
         update_user_shipping_details: UpdateUserShippingDetails,
@@ -112,5 +112,5 @@ class Facade:
         return "\n".join(result)
 
 
-def client_code(facade: Facade, user_pk, method_choice, shipping_details):
+def client_code_delivery(facade: DeliveryFacade, user_pk, method_choice, shipping_details):
     return facade.operation(user_pk, method_choice, shipping_details)
