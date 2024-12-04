@@ -6,6 +6,10 @@ from django.db.models.functions import (
 )
 from django.db.models import (
     F,
+    Case,
+    Value,
+    When,
+    CharField,
 )
 from design_patterns_crafted_django_e_commerce.user_payment_details.models import (
     UserPaymentDetails,
@@ -71,6 +75,13 @@ class GenerateOrderConfirmation:
                 created_date=TruncDate("created_at"),
                 total_price_per_product=F("order_item_order__inventory__price")
                 * F("order_item_order__quantity"),
+                delivery_method_full_title=Case(
+                    When(delivery__method="SP", then=Value("Store Pickup")),
+                    When(delivery__method="EH", then=Value("Express Home")),
+                    When(delivery__method="RH", then=Value("Regular Home")),
+                    default=Value("Unknown Method"),
+                    output_field=CharField(),
+                ),
             )
             .values(
                 "created_date",
@@ -79,11 +90,11 @@ class GenerateOrderConfirmation:
                 "total_price_per_product",
                 "order_item_order__inventory__size",
                 "order_item_order__inventory__product__first_image_url",
-                "delivery__method",
+                "delivery_method_full_title",
                 "delivery__total_cost",
                 "delivery__due_date",
-                
-            ).order_by("order_item_order__pk")
+            )
+            .order_by("order_item_order__pk")
         )
 
 
@@ -109,7 +120,7 @@ class OrderFacade:
 
         # self.update_user_payment_details.update_related_obj(user_pk, payment_details)
 
-        self.move_shopping_bag_items_to_order_item.move_items(user_pk)
+        # self.move_shopping_bag_items_to_order_item.move_items(user_pk)
 
         return self.generate_order_confirmation.generate(user_pk)
 

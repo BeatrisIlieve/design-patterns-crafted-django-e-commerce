@@ -17,7 +17,7 @@ class Inventory(models.Model):
     class Meta:
         unique_together = ("product", "size")
         verbose_name_plural = "Inventories"
-        
+
     objects = InventoryManager()
 
     quantity = models.PositiveIntegerField(
@@ -50,4 +50,3 @@ class Inventory(models.Model):
     updated_at = models.DateField(
         auto_now=True,
     )
-

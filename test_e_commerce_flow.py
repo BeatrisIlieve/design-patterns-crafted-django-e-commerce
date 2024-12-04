@@ -306,18 +306,29 @@ class TestEntireFunctionality:
             "Order Confirmation:",
         ]
 
-        for data in order_confirmation_data:
+        delivery_method = f"Delivery Method: {order_confirmation_data[0]['delivery_method_full_title']}"
+        total_order_cost = (
+            f"Total Order Cost: {order_confirmation_data[0]['delivery__total_cost']}"
+        )
+        delivery_due_date = (
+            f"Delivery Due Date: {order_confirmation_data[0]['delivery__due_date']}"
+        )
+        created_at = f"Created at: {order_confirmation_data[0]['created_date']}"
+
+        result.append(delivery_method)
+        result.append(total_order_cost)
+        result.append(delivery_due_date)
+        result.append(created_at)
+
+        for index, data in enumerate(order_confirmation_data):
             result.extend(
                 [
+                    f"Item {index + 1}:",
                     f"Item quantity: {data['order_item_order__quantity']}",
                     f"Item Price: {data['order_item_order__inventory__price']}",
                     f"Total Price Per Item: {data['total_price_per_product']}",
                     f"Item Size: {data['order_item_order__inventory__size']}",
                     f"Item Image: {data['order_item_order__inventory__product__first_image_url']}",
-                    f"Delivery Method: {data['delivery__method']}",
-                    f"Total Order Cost: {data['delivery__total_cost']}",
-                    f"Delivery De Date: {data['delivery__due_date']}",
-                    f"Created at: {data['created_date']}",
                 ]
             )
 
@@ -339,7 +350,6 @@ class TestEntireFunctionality:
         # result.append(self.__test_get_all_shopping_bag_items_per_user())
         # result.append(self.__test_clicking_on_continue_checkout_button())
         result.append(self.__test_clicking_on_process_payment_button())
-        # return result
         return "\n\n".join(result)
 
 

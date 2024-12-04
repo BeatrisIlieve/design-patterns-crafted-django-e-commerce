@@ -14,7 +14,7 @@ class Order(models.Model):
         to=UserCredentialDetails,
         on_delete=models.CASCADE,
     )
-    
+
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
@@ -33,12 +33,11 @@ class OrderItem(models.Model):
     inventory = models.ForeignKey(
         to=Inventory,
         on_delete=models.CASCADE,
-        related_name="order_item_inventory"
+        related_name="order_item_inventory",
     )
 
     order = models.ForeignKey(
         to=Order,
         on_delete=models.CASCADE,
-        related_name="order_item_order"
+        related_name="order_item_order",
     )
-    
