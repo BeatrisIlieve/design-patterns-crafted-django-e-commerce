@@ -118,9 +118,9 @@ class OrderFacade:
 
     def operation(self, user_pk, payment_details):
 
-        # self.update_user_payment_details.update_related_obj(user_pk, payment_details)
+        self.update_user_payment_details.update_related_obj(user_pk, payment_details)
 
-        # self.move_shopping_bag_items_to_order_item.move_items(user_pk)
+        self.move_shopping_bag_items_to_order_item.move_items(user_pk)
 
         return self.generate_order_confirmation.generate(user_pk)
 

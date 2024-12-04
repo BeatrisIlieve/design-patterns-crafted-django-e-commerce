@@ -8,7 +8,6 @@
 7. Compare the result with the output at the bottom of the current file
 """
 
-import json
 import os
 import django
 
@@ -17,9 +16,6 @@ os.environ.setdefault(
     "DJANGO_SETTINGS_MODULE", "design_patterns_crafted_django_e_commerce.settings"
 )
 django.setup()
-
-
-from datetime import datetime
 
 
 from cities_light.models import (
@@ -39,7 +35,6 @@ from design_patterns_crafted_django_e_commerce.user_credential_details.models im
 from design_patterns_crafted_django_e_commerce.product.models import (
     Category,
     Color,
-    Product,
 )
 
 from design_patterns_crafted_django_e_commerce.wishlist.models import (
@@ -74,16 +69,16 @@ from design_patterns_crafted_django_e_commerce.order.facade import (
 
 class TestEntireFunctionality:
     def __init__(self) -> None:
-        self.__user_email: str = "beatrisilieve@icloud.com"
+        self.__user_email: str = "beatrisilieve4@icloud.com"
         self.__user_password: str = "123456Aa@"
         self.__category_pk_1: int = Category.objects.get(title="E").pk
         self.__color_pk_1: int = Color.objects.get(title="P").pk
         self.__category_pk_2: int = Category.objects.get(title="B").pk
         self.__color_pk_2: int = Color.objects.get(title="B").pk
-        # self.__user: UserCredentialDetails = None
-        self.__user = UserCredentialDetails.objects.get(
-            email="beatrisilieve@icloud.com"
-        )
+        self.__user: UserCredentialDetails = None
+        # self.__user = UserCredentialDetails.objects.get(
+        #     email="beatrisilieve@icloud.com"
+        # )
 
     def __test_register_user(self) -> str:
         try:
@@ -337,18 +332,27 @@ class TestEntireFunctionality:
     def execute(self):
         result = []
 
-        # result.append(self.__test_register_user())
-        # result.append(self.__test_register_user_with_duplicate_email())
-        # result.append(self.__test_get_product_into_products_list_page())
-        # result.append(self.__test_get_product_into_product_page())
-        # result.append(self.__test_execute_clicking_on_the_like_button())
-        # result.append(self.__test_get_products_in_user_wishlist())
-        # result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_1, self.__color_pk_1))
-        # result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_2, self.__color_pk_2))
-        # result.append(self.__test_increase_shopping_bag_quantity())
-        # result.append(self.__test_decrease_shopping_bag_quantity())
-        # result.append(self.__test_get_all_shopping_bag_items_per_user())
-        # result.append(self.__test_clicking_on_continue_checkout_button())
+        result.append(self.__test_register_user())
+        result.append(self.__test_register_user_with_duplicate_email())
+        result.append(self.__test_get_product_into_products_list_page())
+        result.append(self.__test_get_product_into_product_page())
+        result.append(self.__test_execute_clicking_on_the_like_button())
+        result.append(self.__test_get_products_in_user_wishlist())
+        result.append(
+            self.__test_execute_clicking_on_the_add_to_bag_button(
+                self.__category_pk_1, self.__color_pk_1
+            )
+        )
+        result.append(
+            self.__test_execute_clicking_on_the_add_to_bag_button(
+                self.__category_pk_2, self.__color_pk_2
+            )
+        )
+        result.append(self.__test_increase_shopping_bag_quantity())
+        result.append(self.__test_increase_shopping_bag_quantity())
+        result.append(self.__test_decrease_shopping_bag_quantity())
+        result.append(self.__test_get_all_shopping_bag_items_per_user())
+        result.append(self.__test_clicking_on_continue_checkout_button())
         result.append(self.__test_clicking_on_process_payment_button())
         return "\n\n".join(result)
 
@@ -363,71 +367,146 @@ User with email beatrisilieve@icloud.com has successfully registered.
 
 User with that email address already exists
 
-Category: Earrings
-Color: Pink
-First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
-Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
-Price Range: 43000.00 - 45000.00
-Is sold out: False
+Product details into products list page:
+
+First image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
+
+Second image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
 
 Category: Earrings
+
 Color: Pink
-First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
-Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
+
+Price range: 43000.00 - 45000.00
+
+Availability: In Stock
+
+Is liked by user: False
+
+Product details into products list page:
+
+First image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
+
+Second image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
+
 Description: 28 pear-shaped and round brilliant sapphires weighing a total of approximately 3.20 carats and 28 marquise and round brilliant diamonds weighing a total of approximately 1.98 carats, set in platinum.
-Size Measurement: 4.05
-Inventory Quantity: 3
-Price Amount: 43000.00
-Is Sold Out: No
-Size Measurement: 4.98
-Inventory Quantity: 3
-Price Amount: 44000.00
-Is Sold Out: No
-Size Measurement: 5.86
-Inventory Quantity: 3
-Price Amount: 45000.00
-Is Sold Out: No
 
 Category: Earrings
+
 Color: Pink
-First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
-Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
-Price Range: 43000.00 - 45000.00
-Is sold out: False
-Category: Bracelets
-Color: Pink
-First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714894/forget-me-not-collection/bracelets/forget_me_not_bracelet_diamond_and_pink_sapphire_brpsprfflrfmn_e_1_vz9pv4.avif
-Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714893/forget-me-not-collection/bracelets/forget_me_not_bracelet_diamond_and_pink_sapphire_brpsprfflrfmn_e_2_kdpnm6.avif
-Price Range: 34000.00 - 36000.00
-Is sold out: False
-Category: Necklaces
-Color: Pink
-First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714890/forget-me-not-collection/necklaces/forget_me_not_lariat_necklace_diamond_and_pink_sapphire_nkpspltflrfmn_e_1_kuxbds.webp
-Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714890/forget-me-not-collection/necklaces/forget_me_not_lariat_necklace_diamond_and_pink_sapphire_nkpspltflrfmn_e_2_d2fc78.webp
-Price Range: 55000.00 - 57000.00
-Is sold out: False
-Category: Rings
-Color: Pink
-First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714892/forget-me-not-collection/rings/forget_me_not_ring_diamond_and_pink_sapphire_frpsprfflrfmn_e_1_qfumu3.webp
-Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714892/forget-me-not-collection/rings/forget_me_not_ring_diamond_and_pink_sapphire_frpsprfflrfmn_e_2_k7nhpe.avif
-Price Range: 23000.00 - 25000.00
-Is sold out: False
+
+Availability: In Stock
+
+Is liked by user: False
+
+size: 4.05
+price: 43000.00
+inventory_id: 1
+stock_status: In Stock
+
+
+size: 4.98
+price: 44000.00
+inventory_id: 2
+stock_status: In Stock
+
+
+size: 5.86
+price: 45000.00
+inventory_id: 3
+stock_status: In Stock
+
+
 
 Product has been added to wishlist
 
+
+
+
+Product details into user wishlist page:
+
+First image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
+
+Second image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
+
 Category: Earrings
+
 Color: Pink
-First Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
-Second Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714886/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-2_p9jicb.webp
-Price Range: 43000.00 - 45000.00
-Is sold out: False
 
-Product has been removed from the wishlist
+Price range: 43000.00 - 45000.00
+
+Availability: In Stock
+
+Item has been added to shopping bag
+
+Item has been added to shopping bag
+
+Quantity has been increased
+
+Quantity has been increased
+
+Quantity has been decreased
+
+Total bag price: 120000.00
+
+First image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714894/forget-me-not-collection/bracelets/forget_me_not_bracelet_diamond_and_sapphire_brsprfflrfmn_e_1_fokzrw.webp
+
+Color: Blue
+
+Category: Bracelets
+
+Quantity: 1
+
+Total price per item: 34000.00
+
+First image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
+
+Color: Pink
+
+Category: Earrings
+
+Quantity: 2
+
+Total price per item: 86000.00
+
+User Shipping Details have been successfully updated
+
+
+
+
+Order Confirmation:
+
+Delivery Method: Express Home
+
+Total Order Cost: 120030.00
+
+Delivery Due Date: 2024-12-06
+
+Created at: 2024-12-04
+
+Item 1:
+
+Item quantity: 1
+
+Item Price: 34000.00
+
+Total Price Per Item: 34000.00
+
+Item Size: 15.02
+
+Item Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714894/forget-me-not-collection/bracelets/forget_me_not_bracelet_diamond_and_sapphire_brsprfflrfmn_e_1_fokzrw.webp
+
+Item 2:
+
+Item quantity: 2
+
+Item Price: 43000.00
+
+Total Price Per Item: 86000.00
+
+Item Size: 4.05
+
+Item Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
 """
 
-"""
-1. Update UserShippingDetails
-2. Create Order
-3. Call strategy to calculate delivery details
-4. Populate Delivery model (method, delivery_cost, total_cost, due_date, order)
-"""
+
