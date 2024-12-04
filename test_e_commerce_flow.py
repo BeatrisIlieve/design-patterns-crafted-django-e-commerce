@@ -51,7 +51,7 @@ from design_patterns_crafted_django_e_commerce.wishlist.models import (
     Wishlist,
 )
 
-from design_patterns_crafted_django_e_commerce.delivery.facade import (
+from design_patterns_crafted_django_e_commerce.user_delivery.facade import (
     Facade,
     UpdateUserShippingDetails,
     CreateUserOrder,

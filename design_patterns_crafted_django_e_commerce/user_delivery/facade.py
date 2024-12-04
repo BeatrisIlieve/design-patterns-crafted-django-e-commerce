@@ -16,7 +16,7 @@ from .strategy import (
     execute_context,
 )
 
-from design_patterns_crafted_django_e_commerce.delivery.models import (
+from design_patterns_crafted_django_e_commerce.user_delivery.models import (
     Delivery,
 )
 

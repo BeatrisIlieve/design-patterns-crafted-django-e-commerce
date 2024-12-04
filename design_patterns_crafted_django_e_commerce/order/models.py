@@ -14,6 +14,10 @@ class Order(models.Model):
         to=UserCredentialDetails,
         on_delete=models.CASCADE,
     )
+    
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
 
 
 class OrderItem(models.Model):
@@ -25,10 +29,6 @@ class OrderItem(models.Model):
         )
 
     quantity = models.PositiveIntegerField()
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-    )
 
     inventory = models.ForeignKey(
         to=Inventory,
