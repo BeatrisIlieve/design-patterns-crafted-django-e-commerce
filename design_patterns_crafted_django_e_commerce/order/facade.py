@@ -63,9 +63,9 @@ class GenerateOrderConfirmation:
     def generate(self, user_pk):
         return (
             Order.objects.filter(user_id=user_pk)
-            .prefetch_related("order_item_set")
+            .prefetch_related("order_item")
             .annotate(created_date=TruncDate("created_at"))
-            .values("created_date", "quantity")
+            .values("created_date", "order_item__quantity")
         )
 
 

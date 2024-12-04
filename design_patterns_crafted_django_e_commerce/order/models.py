@@ -33,11 +33,12 @@ class OrderItem(models.Model):
     inventory = models.ForeignKey(
         to=Inventory,
         on_delete=models.CASCADE,
+        related_name="order_item_inventory"
     )
 
     order = models.ForeignKey(
         to=Order,
         on_delete=models.CASCADE,
-        related_name="order_item"
+        related_name="order_item_order"
     )
     
