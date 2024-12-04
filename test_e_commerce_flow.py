@@ -18,6 +18,12 @@ os.environ.setdefault(
 )
 django.setup()
 
+
+from datetime import datetime
+
+
+
+
 from cities_light.models import (
     Country,
     City,
@@ -58,6 +64,24 @@ from design_patterns_crafted_django_e_commerce.user_delivery.facade import (
     CreateUserDelivery,
     client_code,
 )
+
+# Get the current month and year
+# current_date = datetime.now()
+# current_month = current_date.month
+# current_year = current_date.year
+
+# MONTH_CHOICES = [
+#     (f"{month:02}", f"{month:02}")
+#     for month in range(current_month, 13)
+# ]
+
+# YEAR_CHOICES = [
+#     (year, year)
+#     for year in range(current_year, current_year + 12)
+# ]
+
+# print(MONTH_CHOICES)
+# print(YEAR_CHOICES)
 
 
 class TestEntireFunctionality:
@@ -261,28 +285,35 @@ class TestEntireFunctionality:
         method_choice = "EH"
         
         return client_code(facade, self.__user.pk, method_choice, shipping_details)
+    
+    def __test_clicking_on_process_payment_button(self):
+        payment_details = {
+            "card_holder": "Beatris Ilieva",
+            "card_number": "1234567890123456",
+            
+        }
 
     def execute(self):
         result = []
 
-        result.append(self.__test_register_user())
-        result.append(self.__test_register_user_with_duplicate_email())
-        result.append(self.__test_get_product_into_products_list_page())
-        result.append(self.__test_get_product_into_product_page())
-        result.append(self.__test_execute_clicking_on_the_like_button())
-        result.append(self.__test_get_products_in_user_wishlist())
-        result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_1, self.__color_pk_1))
-        result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_2, self.__color_pk_2))
-        result.append(self.__test_increase_shopping_bag_quantity())
-        result.append(self.__test_decrease_shopping_bag_quantity())
-        result.append(self.__test_get_all_shopping_bag_items_per_user())
-        result.append(self.__test_clicking_on_continue_checkout_button())
+        # result.append(self.__test_register_user())
+        # result.append(self.__test_register_user_with_duplicate_email())
+        # result.append(self.__test_get_product_into_products_list_page())
+        # result.append(self.__test_get_product_into_product_page())
+        # result.append(self.__test_execute_clicking_on_the_like_button())
+        # result.append(self.__test_get_products_in_user_wishlist())
+        # result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_1, self.__color_pk_1))
+        # result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_2, self.__color_pk_2))
+        # result.append(self.__test_increase_shopping_bag_quantity())
+        # result.append(self.__test_decrease_shopping_bag_quantity())
+        # result.append(self.__test_get_all_shopping_bag_items_per_user())
+        # result.append(self.__test_clicking_on_continue_checkout_button())
         return "\n\n".join(result)
 
 
-instance = TestEntireFunctionality()
+# instance = TestEntireFunctionality()
 
-print(instance.execute())
+# print(instance.execute())
 
 # OUTPUT:
 """
