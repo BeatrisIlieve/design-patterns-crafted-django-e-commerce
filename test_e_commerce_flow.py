@@ -62,6 +62,7 @@ from design_patterns_crafted_django_e_commerce.delivery.facade import (
     UpdateUserShippingDetails,
     CreateUserOrder,
     CreateUserDelivery,
+    client_code,
 )
 
 
@@ -71,15 +72,8 @@ class TestEntireFunctionality:
         self.__user_password: str = "123456Aa@"
         self.__category_pk_1: int = Category.objects.get(title="E").pk
         self.__color_pk_1: int = Color.objects.get(title="P").pk
-        self.__product: Product = Product.objects.filter(
-            category_id=self.__category_pk_1, color_id=self.__color_pk_1
-        ).first()
         # self.__user: UserCredentialDetails = None
         self.__user = UserCredentialDetails.objects.get(pk=1)
-        self.__user_shipping_details = UserShippingDetails.objects.get(
-            pk=self.__user.pk
-        )
-        self.__user_payment_details = UserPaymentDetails.objects.get(pk=self.__user.pk)
 
     def __test_register_user(self) -> str:
         try:
@@ -180,7 +174,25 @@ class TestEntireFunctionality:
         )
 
     def __test_get_products_in_user_wishlist(self):
-        return Wishlist.objects.get_all_liked_products(self.__user)
+        inventories = Wishlist.objects.get_all_liked_products(self.__user)
+        
+        result = []
+        
+        for inventory in inventories:
+            result.extend(
+                [
+                    "\n",
+                    "Product details into user wishlist page:",
+                    f"First image: {inventory[0]['product__first_image_url']}",
+                    f"Second image: {inventory[0]['product__second_image_url']}",
+                    f"Category: {inventory[0]['full_category_title']}",
+                    f"Color: {inventory[0]['full_color_title']}",
+                    f"Price range: {inventory[0]['min_price']} - {inventory[0]['max_price']}",
+                    f"Availability: {inventory[0]['is_sold_out']}",
+                ]
+            )
+        
+        return "\n\n".join(result)
 
     def __test_execute_clicking_on_the_add_to_bag_button(self):
         inventories = Inventory.objects.get_product_into_product_page(
@@ -232,39 +244,45 @@ class TestEntireFunctionality:
         region = Region.objects.get(name="California")
         city = City.objects.get(name="Los Angeles")
 
-        self.__user_shipping_details.update(
-            first_name="Beatris",
-            last_name="Ilieva",
-            phone_number="1234567890",
-            country=country,
-            city=city,
-            region=region,
-            street_address="Some Street 1-",
-            apartment="Apt. 1",
-            postal_code="1000",
-        )
+        shipping_details = {
+            "first_name": "Beatris",
+            "last_name": "Ilieva",
+            "phone_number": "1234567890",
+            "country": country,
+            "city": city,
+            "region": region,
+            "street_address": "Some Street 1-",
+            "apartment": "Apt. 1",
+            "postal_code": "1000",
+        }
 
         update_user_shipping_details = UpdateUserShippingDetails()
         create_user_order = CreateUserOrder()
         create_user_delivery = CreateUserDelivery()
-        facade = Facade(update_delivery_address, set_delivery_method)
+        facade = Facade(
+            update_user_shipping_details, create_user_order, create_user_delivery
+        )
         method_choice = "EH"
+        
+        client_code(facade, self.__user.pk, method_choice, shipping_details)
 
     def execute(self):
-        pass
+        result = []
 
         # result.append(self.__test_register_user())
         # result.append(self.__test_register_user_with_duplicate_email())
-        # result = self.__test_get_product_into_products_list_page()
-        # result = self.__test_get_product_into_product_page()
-        # result = self.__test_execute_clicking_on_the_like_button()
+        # result.append(self.__test_get_product_into_products_list_page())
+        # result.append(self.__test_get_product_into_product_page())
+        # result.append(self.__test_execute_clicking_on_the_like_button())
         # result = self.__test_get_products_in_user_wishlist()
+        result.append(self.__test_get_products_in_user_wishlist())
         # result = self.__test_execute_clicking_on_the_add_to_bag_button()
         # result = self.__test_increase_shopping_bag_quantity()
         # result = self.__test_decrease_shopping_bag_quantity()
         # result = self.__test_get_all_shopping_bag_items_per_user()
-        # return result
-        # return "\n\n".join(result)
+        # result.append(self.__test_clicking_on_continue_checkout_button())
+        return "\n\n".join(result)
+        # print(result)
 
 
 instance = TestEntireFunctionality()

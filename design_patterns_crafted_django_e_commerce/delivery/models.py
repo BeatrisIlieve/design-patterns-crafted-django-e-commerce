@@ -6,7 +6,6 @@ from design_patterns_crafted_django_e_commerce.order.models import (
     Order,
 )
 
-
 class Delivery(models.Model):
     METHOD_CHOICES = (
         ("SP", "Store Pickup"),
