@@ -1,11 +1,12 @@
 """
 1. Set up a PostgreSQL database
-2. Run python manage.py makemigrations
-3. Run python manage.py migrate
-4. Run python manage.py initialize_products_data
-5. Run python manage.py initialize_inventory_data
-6. Run the current file
-7. Compare the result with the output at the bottom of the current file
+2. Set up django-cities
+3. Run python manage.py makemigrations
+4. Run python manage.py migrate
+5. Run python manage.py initialize_products_data
+6. Run python manage.py initialize_inventory_data
+7. Run the current file
+8. Compare the result with the output at the bottom of the current file
 """
 
 import os
