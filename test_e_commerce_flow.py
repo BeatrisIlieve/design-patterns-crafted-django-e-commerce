@@ -69,16 +69,13 @@ from design_patterns_crafted_django_e_commerce.order.facade import (
 
 class TestEntireFunctionality:
     def __init__(self) -> None:
-        self.__user_email: str = "beatrisilieve4@icloud.com"
+        self.__user_email: str = "beatrisilieve@icloud.com"
         self.__user_password: str = "123456Aa@"
         self.__category_pk_1: int = Category.objects.get(title="E").pk
         self.__color_pk_1: int = Color.objects.get(title="P").pk
         self.__category_pk_2: int = Category.objects.get(title="B").pk
         self.__color_pk_2: int = Color.objects.get(title="B").pk
         self.__user: UserCredentialDetails = None
-        # self.__user = UserCredentialDetails.objects.get(
-        #     email="beatrisilieve@icloud.com"
-        # )
 
     def __test_register_user(self) -> str:
         try:
@@ -508,5 +505,3 @@ Item Size: 4.05
 
 Item Image: https://res.cloudinary.com/deztgvefu/image/upload/v1723714885/forget-me-not-collection/earrings/forget_me_not_drop_earrings_diamond_and_pink_sapphire_eapspdrflrfmn_ee-1_zzaw4q.webp
 """
-
-
