@@ -19,7 +19,6 @@ CUSTOM_APPS = [
     "design_patterns_crafted_django_e_commerce.shopping_bag",
     "design_patterns_crafted_django_e_commerce.user_delivery",
     "design_patterns_crafted_django_e_commerce.order",
-    "design_patterns_crafted_django_e_commerce.purchase_history",
 ]
 
 THIRD_PARTY_APPS = [
