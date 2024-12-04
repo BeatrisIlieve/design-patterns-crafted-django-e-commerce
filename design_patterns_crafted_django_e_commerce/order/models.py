@@ -38,5 +38,6 @@ class OrderItem(models.Model):
     order = models.ForeignKey(
         to=Order,
         on_delete=models.CASCADE,
+        related_name="order_item"
     )
     

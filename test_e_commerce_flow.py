@@ -80,8 +80,8 @@ class TestEntireFunctionality:
         self.__color_pk_1: int = Color.objects.get(title="P").pk
         self.__category_pk_2: int = Category.objects.get(title="B").pk
         self.__color_pk_2: int = Color.objects.get(title="B").pk
-        self.__user: UserCredentialDetails = None
-        # self.__user = UserCredentialDetails.objects.get(email="beatrisilieve@icloud.com")
+        # self.__user: UserCredentialDetails = None
+        self.__user = UserCredentialDetails.objects.get(email="beatrisilieve@icloud.com")
 
     def __test_register_user(self) -> str:
         try:
@@ -298,20 +298,21 @@ class TestEntireFunctionality:
     def execute(self):
         result = []
 
-        result.append(self.__test_register_user())
-        result.append(self.__test_register_user_with_duplicate_email())
-        result.append(self.__test_get_product_into_products_list_page())
-        result.append(self.__test_get_product_into_product_page())
-        result.append(self.__test_execute_clicking_on_the_like_button())
-        result.append(self.__test_get_products_in_user_wishlist())
-        result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_1, self.__color_pk_1))
-        result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_2, self.__color_pk_2))
-        result.append(self.__test_increase_shopping_bag_quantity())
-        result.append(self.__test_decrease_shopping_bag_quantity())
-        result.append(self.__test_get_all_shopping_bag_items_per_user())
-        result.append(self.__test_clicking_on_continue_checkout_button())
-        # self.__test_clicking_on_process_payment_button()
-        return "\n\n".join(result)
+        # result.append(self.__test_register_user())
+        # result.append(self.__test_register_user_with_duplicate_email())
+        # result.append(self.__test_get_product_into_products_list_page())
+        # result.append(self.__test_get_product_into_product_page())
+        # result.append(self.__test_execute_clicking_on_the_like_button())
+        # result.append(self.__test_get_products_in_user_wishlist())
+        # result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_1, self.__color_pk_1))
+        # result.append(self.__test_execute_clicking_on_the_add_to_bag_button(self.__category_pk_2, self.__color_pk_2))
+        # result.append(self.__test_increase_shopping_bag_quantity())
+        # result.append(self.__test_decrease_shopping_bag_quantity())
+        # result.append(self.__test_get_all_shopping_bag_items_per_user())
+        # result.append(self.__test_clicking_on_continue_checkout_button())
+        result = self.__test_clicking_on_process_payment_button()
+        print(result)
+        # return "\n\n".join(result)
 
 
 instance = TestEntireFunctionality()

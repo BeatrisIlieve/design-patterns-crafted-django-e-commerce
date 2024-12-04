@@ -1,6 +1,9 @@
 from django.core.exceptions import (
     ValidationError,
 )
+from django.db.models.functions import (
+    TruncDate,
+)
 
 from design_patterns_crafted_django_e_commerce.user_payment_details.models import (
     UserPaymentDetails,
@@ -57,8 +60,13 @@ class MoveShoppingBagItemsToOrderItem:
 
 
 class GenerateOrderConfirmation:
-    def generate(self, user_pk, order):
-        pass
+    def generate(self, user_pk):
+        return (
+            Order.objects.filter(user_id=user_pk)
+            .prefetch_related("order_item_set")
+            .annotate(created_date=TruncDate("created_at"))
+            .values("created_date", "quantity")
+        )
 
 
 class OrderFacade:
@@ -74,18 +82,18 @@ class OrderFacade:
         self.move_shopping_bag_items_to_order_item: MoveShoppingBagItemsToOrderItem = (
             move_shopping_bag_items_to_order_item
         )
-        self._order = None
+
         self.generate_order_confirmation: GenerateOrderConfirmation = (
             generate_order_confirmation
         )
 
     def operation(self, user_pk, payment_details):
 
-        self.update_user_payment_details.update_related_obj(user_pk, payment_details)
+        # self.update_user_payment_details.update_related_obj(user_pk, payment_details)
 
-        self._order = self.move_shopping_bag_items_to_order_item.move_items(user_pk)
+        self.move_shopping_bag_items_to_order_item.move_items(user_pk)
 
-        # return self.generate_order_confirmation.generate(user_pk, self._order)
+        return self.generate_order_confirmation.generate(user_pk)
 
 
 def client_code_order(facade: OrderFacade, user_pk, payment_details):
