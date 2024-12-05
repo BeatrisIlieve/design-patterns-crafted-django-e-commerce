@@ -92,3 +92,8 @@ The Strategy Pattern is used for calculating the total cost and delivery due dat
 - Store Pickup: No delivery fee; immediate pickup availability.
 - Express Home Delivery: Higher delivery fee; shortest due date.
 - Regular Home Delivery: Lower delivery fee; longer due date.
+
+## 🧰 Tech Stack
+- Backend: Django
+- Database: PostgreSQL
+- Design Patterns: Facade, Strategy
