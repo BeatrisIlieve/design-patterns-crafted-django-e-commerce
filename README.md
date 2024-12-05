@@ -14,12 +14,19 @@ Facade Pattern: Simplifies multi-step processes (e.g., saving shipping details, 
 Strategy Pattern: Calculates total costs and delivery due dates based on user-selected shipping methods.
 
 ## 🏗️ Models
-- User Models
-User Credentials: Stores user authentication data (e.g., email, password).
-User Shipping Details: Records user-provided shipping addresses.
-User Payment Details: Saves payment information such as card details.
-- Product Models
-Category
-Color
-Product: Manages product information like description, price, and images.
-Inventory: Tracks product availability in stock per product size.
+### User Models
+- User Credentials: Stores user authentication data (e.g., email, password).
+- User Shipping Details: Records user-provided shipping addresses.
+- User Payment Details: Saves payment information such as card details.
+### Product Models
+- Category
+- Color
+- Product: Manages product information like description, price, and images.
+- Inventory: Tracks product availability in stock per product size.
+### Order Models
+- Order: Links a user to their purchase and records order details.
+- Order Items: Contains information about specific items in an order, including quantity and inventory data.
+- Delivery: Manages delivery information, including method, total cost, and due date.
+### Other Models
+- Wishlist: Allows users to save products they intend to purchase later.
+- Shopping Bag: Tracks products added to the user's shopping cart before purchase.
