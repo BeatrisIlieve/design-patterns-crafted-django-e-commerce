@@ -115,7 +115,3 @@ pip install -r requirements.txt
 ``` python
 python manage.py migrate
 ```
-
-``` python
-python manage.py migrate
-```
