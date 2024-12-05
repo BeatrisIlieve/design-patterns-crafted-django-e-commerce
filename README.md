@@ -75,3 +75,12 @@ Selects and returns only the relevant fields to provide a concise and meaningful
   
 Orders the Data:
 - Sorts the order items within the order by their primary key for consistent display.
+
+######  Data Flow in Confirmation
+The confirmation brings together the following details:
+
+- User Credentials: Links the order to the specific user who placed it.
+- Order Details: The date and time the order was created.
+- Order Items: Each item’s quantity, price, size, and image.
+- Delivery Information: The total delivery cost, the due date for delivery, and the delivery method.
+- Calculated Data: The total price per product for easy reference.
