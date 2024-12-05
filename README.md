@@ -97,3 +97,25 @@ The Strategy Pattern is used for calculating the total cost and delivery due dat
 - Backend: Django
 - Database: PostgreSQL
 - Design Patterns: Facade, Strategy
+
+## 🔗 Getting Started
+#### Prerequisites
+- Python 3.8+
+- Django 4.x
+- PostgreSQL
+
+``` python
+git clone https://github.com/your-username/online-shop-database.git
+```
+
+``` python
+pip install -r requirements.txt
+```
+
+``` python
+python manage.py migrate
+```
+
+``` python
+python manage.py migrate
+```
