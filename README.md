@@ -115,3 +115,4 @@ pip install -r requirements.txt
 ``` python
 python manage.py migrate
 ```
+## 📊 Entity Relationship Diagram
