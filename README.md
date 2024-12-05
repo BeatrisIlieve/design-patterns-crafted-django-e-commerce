@@ -116,4 +116,5 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 ## 📊 Entity Relationship Diagram
-![ERD](https://github.com/user-attachments/assets/0759b625-7652-40d5-8a42-105cd56225be)
+
+![ERD](https://github.com/user-attachments/assets/6983d71c-1f3c-4c74-a3ba-a3d75018ef76)
