@@ -84,3 +84,11 @@ The confirmation brings together the following details:
 - Order Items: Each item’s quantity, price, size, and image.
 - Delivery Information: The total delivery cost, the due date for delivery, and the delivery method.
 - Calculated Data: The total price per product for easy reference.
+
+### Strategy Pattern
+The Strategy Pattern is used for calculating the total cost and delivery due date based on the shipping method selected by the user:
+
+#### Shipping Method:
+- Store Pickup: No delivery fee; immediate pickup availability.
+- Express Home Delivery: Higher delivery fee; shortest due date.
+- Regular Home Delivery: Lower delivery fee; longer due date.
