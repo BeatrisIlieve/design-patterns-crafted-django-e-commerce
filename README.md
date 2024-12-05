@@ -113,6 +113,14 @@ pip install -r requirements.txt
 ```
 
 ``` python
+python manage.py initialize_products_data
+```
+
+``` python
+python manage.py initialize_inventory_data
+```
+
+``` python
 python manage.py migrate
 ```
 ## 📊 Entity Relationship Diagram
